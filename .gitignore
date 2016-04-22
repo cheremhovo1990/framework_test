@@ -2,3 +2,5 @@
 vendor/
 
 tests/_output/*
+
+index.php
