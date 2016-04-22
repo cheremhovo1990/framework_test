@@ -3,7 +3,8 @@
 require(__DIR__ . '/vendor/autoload.php');
 
 $db = new \app\Db();
-$sql = 'INSERT INTO Test(name) VALUES (:SECOND)';
-$res = $db->execute($sql, [':SECOND' => 'SECOND']);
+$sql = 'SELECT * FROM Test';
 
-var_dump($sql);
+$res = $db->query($sql, [], \app\Test::class);
+
+var_dump($res);

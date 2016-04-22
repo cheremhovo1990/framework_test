@@ -24,9 +24,13 @@ class Db
         return $stmt->execute($param);
     }
 
-    public function query($sql, $param)
+    public function query($sql, $param, $class)
     {
         $stmt = $this->pdo->prepare($sql);
         $res = $stmt->execute($param);
+        if (false !== $res) {
+            return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
+        }
+        return [];
     }
 }
