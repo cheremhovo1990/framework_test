@@ -18,7 +18,7 @@ class BuildQuery
                     array_push($this->build['select'], $elem);
                 }
                 if (is_string($key)) {
-                    array_push($this->build['select'], $key . ' AS ' . $elem);
+                    array_push($this->build['select'], $elem  . ' AS ' . $key);
                 }
             }
         }
@@ -28,7 +28,20 @@ class BuildQuery
     public function from($from)
     {
         $this->build['from'] = [];
-        array_push($this->build['from'], $from);
+        if (is_string($from)) {
+            array_push($this->build['from'], $from);
+        }
+
+        if (is_array($from)) {
+            foreach ($from as $key => $elem) {
+                if (is_int($key)) {
+                    array_push($this->build['from'], $elem);
+                }
+                if (is_string($key)) {
+                    array_push($this->build['from'], $elem  . ' AS ' . $key);
+                }
+            }
+        }
     }
 
     public function where($conditions)
@@ -63,7 +76,7 @@ class BuildQuery
 
         if (!empty($this->build['from'])) {
             $statament .= ' FROM ';
-            $statament .= implode($this->build['from']);
+            $statament .= implode(', ', $this->build['from']);
         }
 
         if (!empty($this->build['where'])) {

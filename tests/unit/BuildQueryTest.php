@@ -35,7 +35,7 @@ class BuildQueryTest extends \Codeception\TestCase\Test
 
         $built4 = new \app\BuildQuery();
         $built4->select(['first' => 'one', 'second']);
-        $except4 = 'SELECT first AS one, second';
+        $except4 = 'SELECT one AS first, second';
         $this->assertEquals($except4, $built4->statament());
     }
 
@@ -43,9 +43,23 @@ class BuildQueryTest extends \Codeception\TestCase\Test
     {
         $built = new \app\BuildQuery();
         $built->from('Test');
-
         $except = ' FROM Test';
         $this->assertEquals($except, $built->statament());
+
+        $built2 = new \app\BuildQuery();
+        $built2->from('first, second');
+        $except2 = ' FROM first, second';
+        $this->assertEquals($except2, $built2->statament());
+
+        $built3 = new \app\BuildQuery();
+        $built3->from(['first', 'second']);
+        $except3 = ' FROM first, second';
+        $this->assertEquals($except3, $built3->statament());
+
+        $built4 = new \app\BuildQuery();
+        $built4->from(['first' => 'one', 'second']);
+        $except4 = ' FROM one AS first, second';
+        $this->assertEquals($except4, $built4->statament());
     }
 
     public function testSelectAndFrom()
