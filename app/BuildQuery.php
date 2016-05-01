@@ -2,70 +2,98 @@
 
 namespace app;
 
-class BuildQuery
+
+class BuildQuery extends BaseBuilder
 {
-    public $build = [];
+
+    private $params = [];
 
     public function select($select)
     {
-        $this->build['select'] = [];
-        if (is_string($select)) {
-            array_push($this->build['select'], $select);
-        }
-        if (is_array($select)) {
-            foreach ($select as $key => $elem) {
-                if (is_int($key)) {
-                    array_push($this->build['select'], $elem);
-                }
-                if (is_string($key)) {
-                    array_push($this->build['select'], $elem  . ' AS ' . $key);
-                }
-            }
-        }
-
+        $this->parser('select', $select);
     }
 
     public function from($from)
     {
-        $this->build['from'] = [];
-        if (is_string($from)) {
-            array_push($this->build['from'], $from);
-        }
-
-        if (is_array($from)) {
-            foreach ($from as $key => $elem) {
-                if (is_int($key)) {
-                    array_push($this->build['from'], $elem);
-                }
-                if (is_string($key)) {
-                    array_push($this->build['from'], $elem  . ' AS ' . $key);
-                }
-            }
-        }
+        $this->parser('from', $from);
     }
 
-    public function where($conditions)
+    public function where($conditions, $params = null)
     {
-        $this->build['where'] = [];
-        if (in_array('and', $conditions)) {
+        $this->createOperatorIntoArray($this->build, 'where');
 
-            $this->build['where']['and'] = [];
-            array_push($this->build['where']['and'], $conditions[1]);
-            array_push($this->build['where']['and'], $conditions[2]);
+        if (is_string($conditions)) {
+            $this->build['where'] = $conditions;
+            return;
         }
-        if (in_array('or', $conditions)) {
 
-            $this->build['where']['or'] = [];
+        $this->buildArray($this->build['where'], $conditions);
+    }
 
-            foreach ($conditions as $key => $item) {
-                if ($key === 0) {
-                    continue;
-                }
-                array_push($this->build['where']['or'], $item);
-            }
+    private function createOperatorIntoArray(array &$operators, $token)
+    {
+        if (empty($operators[$token])) {
+            $operators[$token] = [];
         }
     }
-    
+
+    private function buildArray(array &$array, $statement)
+    {
+        if (in_array('or', $statement)) {
+            $this->createOperator($array, 'or', $statement);
+            return ;
+        }
+        if (!in_array('and', $statement)) {
+            array_unshift($statement, 'and');
+        }
+        $this->createOperator($array, 'and', $statement);
+    }
+
+    private function createOperator(&$array ,$oper , $statement)
+    {
+        $this->createOperatorIntoArray($array, $oper);
+        foreach ($statement as $key => $elem) {
+            if ($key === 0) {
+                continue;
+            }
+            $this->createOperandIntString($array, $oper, $key, $elem);
+            $this->createOperandStringStringOrFloatOrInt($array, $oper, $key, $elem);
+            $this->createOperandIntArray($array, $oper, $key, $elem);
+            $this->createStringArray($array, $oper, $key, $elem);
+        }
+    }
+
+    private function createOperandIntString(&$array, $oper ,$key, $elem)
+    {
+        if (is_int($key) && is_string($elem)) {
+            array_push($array[$oper], $elem);
+        }
+    }
+
+    private function createOperandStringStringOrFloatOrInt(&$array, $oper ,$key, $elem)
+    {
+        if (is_string($key) && (is_string($elem) || is_float($elem) || is_int($elem))) {
+            array_push($array[$oper], $key. '=' . $elem);
+        }
+    }
+
+    private function createOperandIntArray(&$array, $oper ,$key, $elem)
+    {
+        if (is_int($key) && is_array($elem) ) {
+            var_dump($elem);
+            $this->buildArray($array[$oper], $elem);
+        }
+    }
+
+    private function createStringArray(&$array, $oper ,$key, $elem)
+    {
+        if (is_string($key) && is_array($elem)) {
+            $this->createOperatorIntoArray($array[$oper], 'in');
+            array_push($array[$oper]['in'], $key);
+            array_push($array[$oper]['in'], $elem);
+        }
+    }
+
     public function statament()
     {
         $statament = '';
@@ -90,6 +118,9 @@ class BuildQuery
                 $statament .= $this->build['where']['or'][0];
                 $statament .= ' OR ';
                 $statament .= $this->build['where']['or'][1];
+            }
+            if (is_string($this->build['where'])) {
+                $statament .= $this->build['where'];
             }
         }
         return $statament;
