@@ -31,13 +31,6 @@ abstract class BaseBuilder
         }
     }
 
-    protected function createOperatorIntoArray(array &$operators, $token)
-    {
-        if (empty($operators[$token])) {
-            $operators[$token] = [];
-        }
-    }
-
     protected function buildArray(array &$array, $statement)
     {
         if (in_array('or', $statement)) {
@@ -61,6 +54,13 @@ abstract class BaseBuilder
             $this->createOperandStringStringOrFloatOrInt($array, $oper, $key, $elem);
             $this->createOperandIntArray($array, $oper, $key, $elem);
             $this->createStringArray($array, $oper, $key, $elem);
+        }
+    }
+
+    protected function createOperatorIntoArray(array &$operators, $token)
+    {
+        if (empty($operators[$token])) {
+            $operators[$token] = [];
         }
     }
 
@@ -112,38 +112,57 @@ abstract class BaseBuilder
 
     protected function buildAndOr(array $arr)
     {
-        $statament = '(';
-        if (!empty($arr['and'])) {
+        $statament = '';
+        $statament .= $this->buildAndOrOr($arr, 'and');
+        $statament .= $this->buildAndOrOr($arr, 'or');
+        return $statament;
+    }
+
+    protected function buildAndOrOr(array $arr,string $opr)
+    {
+        $statament = '';
+        if (!empty($arr[$opr])) {
+            $statament .= '(';
             $count = 0;
-            foreach ($arr['and'] as $key => $elem) {
+            foreach ($arr[$opr] as $key => $elem) {
                 $count += 1;
                 if ($count > 1) {
-                    $statament .= ' AND ';
+                    $statament .= ' ' . strtoupper($opr) .' ';
                 }
                 if (is_int($key) && is_string($elem)) {
                     $statament .= $elem;
                 }
                 if ($key === 'and' && is_array($elem)) {
-                    $statament .= $this->buildAndOr($arr['and']);
-                }
-            }
-        }
-        if (!empty($arr['or'])) {
-            $count = 0;
-            foreach ($arr['or'] as $key => $elem) {
-                $count += 1;
-                if ($count > 1) {
-                    $statament .= ' OR ';
-                }
-                if (is_int($key) && is_string($elem)) {
-                    $statament .= $elem;
+                    $statament .= $this->buildAndOr($arr[$opr]);
                 }
                 if ($key === 'or' && is_array($elem)) {
-                    $statament .= $this->buildAndOr($arr['or']);
+                    $statament .= $this->buildAndOr($arr[$opr]);
+                }
+                if ($key === 'in' && is_array($elem)) {
+                    foreach ($elem as $item) {
+                        if (is_string($item)) {
+                            $statament .= $item . ' IN (';
+                        }
+                        if (is_array($item)) {
+                            $statament .= implode(', ', $item) . ')';
+                        }
+                    }
                 }
             }
+            $statament .= ')';
         }
-        $statament .= ')';
         return $statament;
+    }
+
+    public function shielding(string $str)
+    {
+        $str = trim($str);
+        $str = '`'. $str;
+        $str = preg_replace('~( +(?= *))~', ' ', $str);
+        $str = preg_replace('~( +(?= +.{1}))~', ' .', $str);
+        $str = str_replace(' as ', '` AS `', $str);
+        $str = str_replace('.', '`.`', $str);
+        $str = $str . '`';
+        return $str;
     }
 }
