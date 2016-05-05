@@ -76,12 +76,12 @@ class BuildQueryTest extends \Codeception\TestCase\Test
     {
         $built1 = new \app\BuildQuery();
         $built1->where(['and', 'first=first', 'second=second']);
-        $except1 = ' WHERE first=first AND second=second';
+        $except1 = ' WHERE (first=first AND second=second)';
         $this->assertEquals($except1, $built1->statament());
 
         $built2 = new \app\BuildQuery();
         $built2->where(['or', 'first=first', 'second=second']);
-        $except2 = ' WHERE first=first OR second=second';
+        $except2 = ' WHERE (first=first OR second=second)';
         $this->assertEquals($except2, $built2->statament());
 
         $built3 = new \app\BuildQuery();
@@ -454,5 +454,80 @@ class BuildQueryTest extends \Codeception\TestCase\Test
         $method->invokeArgs($built, [&$arr, 'or', 1, [1,2,3]]);
         $except = ['or' => []];
         $this->assertEquals($except, $arr);
+    }
+
+    public function testBuildWhere()
+    {
+        $built = new \app\BuildQuery();
+        $method = new ReflectionMethod($built, 'buildWhere');
+        $method->setAccessible(true);
+        $built->build['where'] = [
+            'and' => [
+                'status=1',
+                'status=2',
+                'status=3',
+            ]
+        ];
+        $except = ' WHERE (status=1 AND status=2 AND status=3)';
+        $this->assertEquals($except, $method->invoke($built));
+
+        $built = new \app\BuildQuery();
+        $method = new ReflectionMethod($built, 'buildWhere');
+        $method->setAccessible(true);
+        $built->build['where'] = [
+            'or' => [
+                'status=1',
+                'status=2',
+                'status=3',
+            ]
+        ];
+        $except = ' WHERE (status=1 OR status=2 OR status=3)';
+        $this->assertEquals($except, $method->invoke($built));
+
+        $built = new \app\BuildQuery();
+        $method = new ReflectionMethod($built, 'buildWhere');
+        $method->setAccessible(true);
+        $built->build['where'] = 'status=1';
+        $except = ' WHERE status=1';
+        $this->assertEquals($except, $method->invoke($built));
+    }
+
+    public function testBuildAndOr()
+    {
+        $built = new \app\BuildQuery();
+        $method = new ReflectionMethod($built, 'buildAndOr');
+        $method->setAccessible(true);
+        $build['where'] = [
+            'and' => [
+                'status=1',
+                'status=2',
+                'status=3',
+                'and' => [
+                    'status=1',
+                    'status=2',
+                    'status=3',
+                ],
+            ]
+        ];
+        $except = '(status=1 AND status=2 AND status=3 AND (status=1 AND status=2 AND status=3))';
+        $this->assertEquals($except, $method->invoke($built, $build['where']));
+
+        $built = new \app\BuildQuery();
+        $method = new ReflectionMethod($built, 'buildAndOr');
+        $method->setAccessible(true);
+        $build['where'] = [
+            'or' => [
+                'status=1',
+                'status=2',
+                'status=3',
+                'or' => [
+                    'status=1',
+                    'status=2',
+                    'status=3',
+                ],
+            ]
+        ];
+        $except = '(status=1 OR status=2 OR status=3 OR (status=1 OR status=2 OR status=3))';
+        $this->assertEquals($except, $method->invoke($built, $build['where']));
     }
 }
