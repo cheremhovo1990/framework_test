@@ -2,7 +2,7 @@
 
 namespace app\base;
 
-class Object implements Configurable
+class Object
 {
     /**
      * Returns the value of an object property.

@@ -2,12 +2,7 @@
 
 require(__DIR__ . '/vendor/autoload.php');
 
-class Test extends app\BaseBuilder
-{
+$builder = new app\db\BuilderQuery();
+$builder->select('string');
 
-}
-
-$obj = new Test;
-
-echo $obj->shielding(' name   as  dasd') . PHP_EOL;
-echo $obj->shielding(' name   .  id  ') . PHP_EOL;
+var_dump($builder);
