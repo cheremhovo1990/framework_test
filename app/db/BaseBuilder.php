@@ -2,29 +2,34 @@
 /**
  * Created by PhpStorm.
  * User: Ivan
- * Date: 07.05.2016
- * Time: 10:33
+ * Date: 24.04.2016
+ * Time: 8:29
  */
+
+declare(strict_types=1);
 
 namespace app\db;
 
-use app\base\Object;
+use app\db\builder\Statement;
 
-abstract class BaseBuilder extends Object
+abstract class BaseBuilder
 {
-    protected $statement = null;
+    public $statement;
 
-    protected function createStatement($token, $statement)
+    public function getStatement() : Statement
     {
-        $this->statement = new Statement();
-        if ($token === 'select') {
-            $selectFromWhere = new StatementSelect();
-        }
-        $this->statement->add($selectFromWhere);
-        if (is_string($statement)) {
-            $selectString= new SelectString();
-            $selectString->string = $statement;
-            $selectFromWhere->add(selectString);
-        }
+        return $this->statement;
+    }
+
+    public function setStatement(Statement $statement)
+    {
+        $this->statement = $statement;
+    }
+    
+    protected function parser(string $token, $statement)
+    {
+        $sql = new Statement();
+        $this->setStatement($sql);
+        $sql->parser($token, $statement);
     }
 }

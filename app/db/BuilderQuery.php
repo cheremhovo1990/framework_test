@@ -1,18 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan
- * Date: 07.05.2016
- * Time: 10:33
- */
+
+declare(strict_types=1);
 
 namespace app\db;
-
 
 class BuilderQuery extends BaseBuilder
 {
     public function select($select)
     {
-        $this->createStatement('select', $select);
+        $this->parser('select', $select);
     }
 }
