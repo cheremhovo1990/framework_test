@@ -6,10 +6,12 @@
  * Time: 8:05
  */
 
+declare(strict_types=1);
+
 namespace app\db\builder;
 
 
-class SelectString
+class TableString
 {
     public $string;
 

@@ -10,4 +10,8 @@ class BuilderQuery extends BaseBuilder
     {
         $this->parser('select', $select);
     }
+    public function from($from)
+    {
+        $this->parser('from', $from);
+    }
 }

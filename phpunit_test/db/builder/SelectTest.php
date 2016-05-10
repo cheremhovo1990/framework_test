@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class SelectTest extends \unit\_helper\Helper
 {
     public function testParser()

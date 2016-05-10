@@ -32,9 +32,15 @@ class Statement
     public function parser(string $token, $statement)
     {
         if ($token === 'select') {
-            $select = new Select();
+            $sqlObject = new Select();
         }
-        $this->add($select);
-        $select->parser($statement);
+        if ($token === 'from') {
+            $sqlObject = new From();
+        }
+        if (is_null($sqlObject)) {
+            throw new Exception('Argument');
+        }
+        $this->add($sqlObject);
+        $sqlObject->parser($statement);
     }
 }
