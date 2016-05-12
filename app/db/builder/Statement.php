@@ -31,15 +31,8 @@ class Statement
 
     public function parser(string $token, $statement)
     {
-        if ($token === 'select') {
-            $sqlObject = new Select();
-        }
-        if ($token === 'from') {
-            $sqlObject = new From();
-        }
-        if (is_null($sqlObject)) {
-            throw new Exception('Argument');
-        }
+        $class = '\\app\\db\\builder\\' . $token;
+        $sqlObject = new $class();
         $this->add($sqlObject);
         $sqlObject->parser($statement);
     }

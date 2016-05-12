@@ -6,6 +6,8 @@
  * Time: 8:34
  */
 
+declare(strict_types=1);
+
 namespace app\db\builder;
 
 

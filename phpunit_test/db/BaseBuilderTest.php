@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use app\db\BaseBuilder;
 
 class FakerBaseBuilder extends BaseBuilder

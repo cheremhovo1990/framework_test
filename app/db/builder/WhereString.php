@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Ivan
- * Date: 08.05.2016
- * Time: 8:05
+ * Date: 12.05.2016
+ * Time: 8:36
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class TableString
+class WhereString
 {
     private $string;
 

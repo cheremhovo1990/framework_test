@@ -14,4 +14,9 @@ class BuilderQuery extends BaseBuilder
     {
         $this->parser('from', $from);
     }
+
+    public function where($where)
+    {
+        $this->parser('where', $where);
+    }
 }
