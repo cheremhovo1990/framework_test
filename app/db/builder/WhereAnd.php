@@ -11,8 +11,12 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class WhereAnd extends Operator
+class WhereAnd implements
+    IWhere,
+    IOperator
 {
+    use Operator;
+
     private $ands = [];
 
     public function getAnds() : array
@@ -20,12 +24,12 @@ class WhereAnd extends Operator
         return $this->ands;
     }
 
-    public function setAnds($and)
+    public function setAnds(IOperator $and)
     {
         $this->ands[] = $and;
     }
 
-    public function add($and)
+    public function add(IOperator $and)
     {
         $this->setAnds($and);
     }

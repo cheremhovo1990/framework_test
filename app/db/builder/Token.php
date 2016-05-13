@@ -11,23 +11,23 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-abstract class Token
+trait Token
 {
     public function parser($statement)
     {
         if (is_string($statement)) {
-            $string = new TableString();
+            $string = new SqlString();
             $string->add($statement);
             $this->add($string);
         } elseif(is_array($statement)) {
             foreach ($statement as $key => $elem) {
                 if (is_string($key) && is_string($elem)) {
-                    $string = new TableString();
+                    $string = new SqlString();
                     $string->add($elem . ' AS ' . $key);
                     $this->add($string);
                 }
                 if (is_int($key) && is_string($elem)) {
-                    $string = new TableString();
+                    $string = new SqlString();
                     $string->add($elem);
                     $this->add($string);
                 }

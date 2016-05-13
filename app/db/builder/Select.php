@@ -10,11 +10,13 @@ declare(strict_types=1);
 
 namespace app\db\builder;
 
-class Select extends Token
+class Select implements IStatement
 {
+    use Token;
+
     private $selects = [];
 
-    public function add($select)
+    public function add(SqlString $select)
     {
         $this->setSelects($select);
     }
@@ -24,7 +26,7 @@ class Select extends Token
         return $this->selects;
     }
 
-    public function setSelects($select)
+    public function setSelects(SqlString $select)
     {
         $this->selects[] = $select;
     }

@@ -14,7 +14,7 @@ class Statement
 {
     private $statements = [];
 
-    public function add($statement)
+    public function add(IStatement $statement)
     {
         $this->setStatements($statement);
     }
@@ -24,7 +24,7 @@ class Statement
         return $this->statements;
     }
 
-    public function setStatements($statement)
+    public function setStatements(IStatement $statement)
     {
         $this->statements[] = $statement;
     }

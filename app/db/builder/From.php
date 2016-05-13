@@ -11,11 +11,13 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class From extends Token
+class From implements IStatement
 {
+    use Token;
+
     private $froms = [];
 
-    public function setFroms($from)
+    public function setFroms(SqlString $from)
     {
         $this->froms[] = $from;
     }
@@ -25,7 +27,7 @@ class From extends Token
         return $this->froms;
     }
 
-    public function add($from)
+    public function add(SqlString $from)
     {
         $this->setFroms($from);
     }

@@ -9,8 +9,12 @@
 namespace app\db\builder;
 
 
-class WhereOr extends Operator
+class WhereOr implements
+    IWhere,
+    IOperator
 {
+    use Operator;
+
     private $ors = [];
 
     public function getOrs() : array

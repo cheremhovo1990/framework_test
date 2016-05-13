@@ -11,13 +11,13 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-abstract class Operator
+trait Operator
 {
     public function parser(array $statement)
     {
         foreach ($statement as $key => $value) {
             if (is_int($key) && is_string($value)) {
-                $string = new WhereString();
+                $string = new SqlString();
                 $this->add($string);
                 $string->add($value);
             }

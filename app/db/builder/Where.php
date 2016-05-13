@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class Where
+class Where  implements IStatement
 {
     private $wheres = [];
 
-    public function setWheres($where)
+    public function setWheres(IWhere $where)
     {
         $this->wheres[] = $where;
     }
@@ -25,7 +25,7 @@ class Where
         return $this->wheres;
     }
 
-    public function add($where)
+    public function add(IWhere $where)
     {
         $this->setWheres($where);
     }
@@ -35,7 +35,7 @@ class Where
         if (is_string($statement)) {
             $and = new WhereAnd();
             $this->add($and);
-            $string = new WhereString();
+            $string = new SqlString();
             $string->add($statement);
             $and->add($string);
         }
