@@ -9,26 +9,6 @@
 namespace app\db\builder;
 
 
-class WhereOr implements
-    IWhere,
-    IOperator
+class WhereOr extends Operator
 {
-    use Operator;
-
-    private $ors = [];
-
-    public function getOrs() : array
-    {
-        return $this->ors;
-    }
-
-    public function setOrs($or)
-    {
-        $this->ors[] = $or;
-    }
-
-    public function add($or)
-    {
-        $this->setOrs($or);
-    }
 }

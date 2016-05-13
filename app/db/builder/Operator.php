@@ -11,8 +11,27 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-trait Operator
+abstract class Operator implements
+    IOperator,
+    IWhere
 {
+    private $operator = [];
+
+    public function getOperator() : array
+    {
+        return $this->operator;
+    }
+
+    public function setOperator(IOperator $or)
+    {
+        $this->operator[] = $or;
+    }
+
+    public function add(IOperator $or)
+    {
+        $this->setOperator($or);
+    }
+
     public function parser(array $statement)
     {
         foreach ($statement as $key => $value) {

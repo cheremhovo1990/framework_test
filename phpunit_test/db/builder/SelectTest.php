@@ -2,18 +2,28 @@
 
 declare(strict_types=1);
 
-class SelectTest extends \unit\_helper\Helper
+class SelectTest extends PHPUNit_framework_TestCase
 {
-    public function testParser()
-    {
-        $select = new \app\db\builder\Select();
-        $select->parser('first');
-        $selects = $select->getSelects()[0]->getString();
-        $this->assertEquals('first', $selects);
+    private $select;
 
-        $select = new \app\db\builder\Select();
-        $select->parser(['first', 'as_second' => 'second', 'third as as_third']);
-        $selects = $select->getSelects();
+    public function setUp()
+    {
+        $this->select = new  \app\db\builder\Select();
+    }
+    
+    public function testParser1()
+    {
+        $this->select->parser(['first', 'as_second' => 'second', 'third as as_third']);
+        $selects = $this->select->getSelects();
+        $this->assertEquals('first', $selects[0]->getString());
+        $this->assertEquals('second AS as_second', $selects[1]->getString());
+        $this->assertEquals('third as as_third', $selects[2]->getString());
+    }
+
+    public function testParser2()
+    {
+        $this->select->parser(['first', 'as_second' => 'second', 'third as as_third']);
+        $selects = $this->select->getSelects();
         $this->assertEquals('first', $selects[0]->getString());
         $this->assertEquals('second AS as_second', $selects[1]->getString());
         $this->assertEquals('third as as_third', $selects[2]->getString());

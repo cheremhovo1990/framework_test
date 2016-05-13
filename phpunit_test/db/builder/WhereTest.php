@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class WhereTest extends \unit\_helper\Helper
+class WhereTest extends PHPUNit_framework_TestCase
 {
     private $where;
 
@@ -15,7 +15,7 @@ class WhereTest extends \unit\_helper\Helper
     {
         $this->where->parser('param');
         $wheres = $this->where->getWheres();
-        $ands = $wheres[0]->getAnds();
+        $ands = $wheres[0]->getOperator();
         $this->assertEquals('param', $ands[0]->getString());
     }
 
@@ -23,9 +23,9 @@ class WhereTest extends \unit\_helper\Helper
     {
         $this->where->parser(['or', 'str=param1', ['or', 'str=param2']]);
         $wheres = $this->where->getWheres();
-        $ors = $wheres[0]->getOrs();
+        $ors = $wheres[0]->getOperator();
         $this->assertEquals('str=param1', $ors[0]->getString());
-        $ors = $ors[1]->getOrs();
+        $ors = $ors[1]->getOperator();
         $this->assertEquals('str=param2', $ors[0]->getString());
     }
 
@@ -33,9 +33,9 @@ class WhereTest extends \unit\_helper\Helper
     {
         $this->where->parser(['and', 'str=param1', ['and', 'str=param2']]);
         $wheres = $this->where->getWheres();
-        $ors = $wheres[0]->getAnds();
+        $ors = $wheres[0]->getOperator();
         $this->assertEquals('str=param1', $ors[0]->getString());
-        $ors = $ors[1]->getAnds();
+        $ors = $ors[1]->getOperator();
         $this->assertEquals('str=param2', $ors[0]->getString());
     }
 }

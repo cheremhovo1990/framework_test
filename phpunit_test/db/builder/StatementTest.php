@@ -2,46 +2,57 @@
 
 declare(strict_types=1);
 
-class StatementTest extends \unit\_helper\Helper
+class StatementTest extends PHPUNit_framework_TestCase
 {
-    public function testParser()
+    private $statement;
+
+    public function setUp()
     {
-        $statement = new \app\db\builder\Statement();
-        $statement->parser('select', 'first');
+        $this->statement = new \app\db\builder\Statement();
+    }
+
+    public function testParser1()
+    {
+        $this->statement->parser('select', 'first');
         /* @var $select \app\db\builder\Select */
-        $select = $statement->getStatements()[0];
+        $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $selects = $select->getSelects();
         $this->assertEquals('first', $selects[0]->getString());
+    }
 
-        $statement = new \app\db\builder\Statement();
-        $statement->parser('select', ['first', 'as_second' => 'second', 'third as as_third']);
+    public function testParser2()
+    {
+        $this->statement->parser('select', ['first', 'as_second' => 'second', 'third as as_third']);
         /* @var $select \app\db\builder\Select */
-        $select = $statement->getStatements()[0];
+        $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $selects = $select->getSelects();
         $this->assertEquals('first', $selects[0]->getString());
         $this->assertEquals('second AS as_second', $selects[1]->getString());
         $this->assertEquals('third as as_third', $selects[2]->getString());
+    }
 
-        $statement = new \app\db\builder\Statement();
-        $statement->parser('from', 'first');
+    public function testParser3()
+    {
+        $this->statement->parser('from', 'first');
         /* @var $select \app\db\builder\From */
-        $from = $statement->getStatements()[0];
+        $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $froms = $from->getFroms();
+        $froms = $from->getFrom();
         $this->assertEquals('first', $froms[0]->getString());
+    }
 
-        $statement = new \app\db\builder\Statement();
-        $statement->parser('from', ['first', 'as_second' => 'second', 'third as as_third']);
+    public function testParser4()
+    {
+        $this->statement->parser('from', ['first', 'as_second' => 'second', 'third as as_third']);
         /* @var $select \app\db\builder\From */
-        $from = $statement->getStatements()[0];
+        $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $froms = $from->getFroms();
+        $froms = $from->getFrom();
         $this->assertEquals('first', $froms[0]->getString());
         $this->assertEquals('second AS as_second', $froms[1]->getString());
         $this->assertEquals('third as as_third', $froms[2]->getString());
     }
-
 
 }

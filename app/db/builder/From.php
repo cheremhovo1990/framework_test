@@ -15,20 +15,20 @@ class From implements IStatement
 {
     use Token;
 
-    private $froms = [];
+    private $from = [];
 
-    public function setFroms(SqlString $from)
+    public function setFrom(SqlString $from)
     {
-        $this->froms[] = $from;
+        $this->from[] = $from;
     }
 
-    public function getFroms() : array
+    public function getFrom() : array
     {
-        return $this->froms;
+        return $this->from;
     }
 
     public function add(SqlString $from)
     {
-        $this->setFroms($from);
+        $this->setFrom($from);
     }
 }
