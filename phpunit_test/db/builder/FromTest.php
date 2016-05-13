@@ -14,14 +14,14 @@ class FromTest extends PHPUNit_framework_TestCase
     public function testParser1()
     {
         $this->from->parser('first');
-        $from = $this->from->getSelects()[0]->getString();
+        $from = $this->from->getTokens()[0]->getString();
         $this->assertEquals('first', $from );
     }
 
     public function testParser2()
     {
         $this->from->parser(['first', 'as_second' => 'second', 'third as as_third']);
-        $from = $this->from->getSelects();
+        $from = $this->from->getTokens();
         $this->assertEquals('first', $from[0]->getString());
         $this->assertEquals('second AS as_second', $from[1]->getString());
         $this->assertEquals('third as as_third', $from[2]->getString());

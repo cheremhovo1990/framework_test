@@ -14,7 +14,7 @@ class SelectTest extends PHPUNit_framework_TestCase
     public function testParser1()
     {
         $this->select->parser(['first', 'as_second' => 'second', 'third as as_third']);
-        $selects = $this->select->getSelects();
+        $selects = $this->select->getTokens();
         $this->assertEquals('first', $selects[0]->getString());
         $this->assertEquals('second AS as_second', $selects[1]->getString());
         $this->assertEquals('third as as_third', $selects[2]->getString());
@@ -23,7 +23,7 @@ class SelectTest extends PHPUNit_framework_TestCase
     public function testParser2()
     {
         $this->select->parser(['first', 'as_second' => 'second', 'third as as_third']);
-        $selects = $this->select->getSelects();
+        $selects = $this->select->getTokens();
         $this->assertEquals('first', $selects[0]->getString());
         $this->assertEquals('second AS as_second', $selects[1]->getString());
         $this->assertEquals('third as as_third', $selects[2]->getString());

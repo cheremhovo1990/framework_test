@@ -32,7 +32,7 @@ class BaseBuilderTest extends \unit\_helper\Helper
         $select = $this->getfield($statement, 'statements');
         foreach ($select as $elem) {
             if ($elem instanceof \app\db\builder\Select) {
-                $selectString = $this->getfield($elem, 'selects');
+                $selectString = $this->getfield($elem, 'tokens');
                 return $selectString;
             }
         }

@@ -17,7 +17,7 @@ class StatementTest extends PHPUNit_framework_TestCase
         /* @var $select \app\db\builder\Select */
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
-        $selects = $select->getSelects();
+        $selects = $select->getTokens();
         $this->assertEquals('first', $selects[0]->getString());
     }
 
@@ -27,7 +27,7 @@ class StatementTest extends PHPUNit_framework_TestCase
         /* @var $select \app\db\builder\Select */
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
-        $selects = $select->getSelects();
+        $selects = $select->getTokens();
         $this->assertEquals('first', $selects[0]->getString());
         $this->assertEquals('second AS as_second', $selects[1]->getString());
         $this->assertEquals('third as as_third', $selects[2]->getString());
@@ -39,7 +39,7 @@ class StatementTest extends PHPUNit_framework_TestCase
         /* @var $select \app\db\builder\From */
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $froms = $from->getFrom();
+        $froms = $from->getTokens();
         $this->assertEquals('first', $froms[0]->getString());
     }
 
@@ -49,7 +49,7 @@ class StatementTest extends PHPUNit_framework_TestCase
         /* @var $select \app\db\builder\From */
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $froms = $from->getFrom();
+        $froms = $from->getTokens();
         $this->assertEquals('first', $froms[0]->getString());
         $this->assertEquals('second AS as_second', $froms[1]->getString());
         $this->assertEquals('third as as_third', $froms[2]->getString());

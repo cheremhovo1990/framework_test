@@ -11,8 +11,25 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-trait Token
+abstract class Token
 {
+    protected $tokens = [];
+
+    public function add(SqlString $select)
+    {
+        $this->setTokens($select);
+    }
+
+    public function getTokens() : array
+    {
+        return $this->tokens;
+    }
+
+    public function setTokens(SqlString $select)
+    {
+        $this->tokens[] = $select;
+    }
+
     public function parser($statement)
     {
         if (is_string($statement)) {
