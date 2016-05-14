@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-abstract class Token
+abstract class Token implements IStatement
 {
     protected $tokens = [];
 

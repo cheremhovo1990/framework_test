@@ -14,7 +14,7 @@ class Statement
 {
     private $statements = [];
 
-    public function add(Token $statement)
+    public function add(IStatement $statement)
     {
         $this->setStatements($statement);
     }
@@ -24,14 +24,14 @@ class Statement
         return $this->statements;
     }
 
-    public function setStatements(Token $statement)
+    public function setStatements(IStatement $statement)
     {
         $this->statements[] = $statement;
     }
 
     public function parser(string $token, $statement)
     {
-        $class = '\\app\\db\\builder\\' . $token;
+        $class = '\\app\\db\\builder\\' . ucfirst($token);
         $sqlObject = new $class();
         $this->add($sqlObject);
         $sqlObject->parser($statement);

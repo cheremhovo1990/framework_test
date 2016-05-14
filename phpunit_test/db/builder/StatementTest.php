@@ -55,4 +55,25 @@ class StatementTest extends PHPUNit_framework_TestCase
         $this->assertEquals('third as as_third', $froms[2]->getString());
     }
 
+    public function testParser5()
+    {
+        $this->statement->parser('where', ['str=param1', ['or', 'str=param2']]);
+        /* @var $where \app\db\builder\Where */
+        $where = $this->statement->getStatements()[0];
+        $this->assertInstanceOf(\app\db\builder\Where::class, $where);
+        /* @var $and \app\db\builder\WhereAnd */
+        $and = $where->getWheres()[0];
+        $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
+        /* @var $string \app\db\builder\SqlString */
+        $string = $and->getOperator()[0];
+        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
+        $this->assertEquals('str=param1', $string->getString());
+        /* @var $or \app\db\builder\WhereOr */
+        $or = $and->getOperator()[1];
+        /* @var $string \app\db\builder\SqlString */
+        $string = $or->getOperator()[0];
+        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
+        $this->assertEquals('str=param2', $string->getString());
+    }
+
 }
