@@ -2,7 +2,7 @@
 <phpunit bootstrap="./phpunit_test/bootstrap.php"
          colors="true">
     <testsuites>
-        <testsuite name="Yii Test Suite">
+        <testsuite name="My Framework Test Suite">
             <directory>./phpunit_test</directory>
         </testsuite>
     </testsuites>
