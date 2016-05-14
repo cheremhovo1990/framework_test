@@ -15,7 +15,7 @@ class WhereTest extends PHPUNit_framework_TestCase
     {
         $this->where->parser('param');
         $wheres = $this->where->getWheres();
-        $ands = $wheres[0]->getOperator();
+        $ands = $wheres->getOperator();
         $this->assertEquals('param', $ands[0]->getString());
     }
 
@@ -23,7 +23,7 @@ class WhereTest extends PHPUNit_framework_TestCase
     {
         $this->where->parser(['or', 'str=param1', ['or', 'str=param2']]);
         $wheres = $this->where->getWheres();
-        $ors = $wheres[0]->getOperator();
+        $ors = $wheres->getOperator();
         $this->assertEquals('str=param1', $ors[0]->getString());
         $ors = $ors[1]->getOperator();
         $this->assertEquals('str=param2', $ors[0]->getString());
@@ -33,7 +33,7 @@ class WhereTest extends PHPUNit_framework_TestCase
     {
         $this->where->parser(['and', 'str=param1', ['and', 'str=param2']]);
         $wheres = $this->where->getWheres();
-        $ors = $wheres[0]->getOperator();
+        $ors = $wheres->getOperator();
         $this->assertEquals('str=param1', $ors[0]->getString());
         $ors = $ors[1]->getOperator();
         $this->assertEquals('str=param2', $ors[0]->getString());

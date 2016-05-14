@@ -13,14 +13,14 @@ namespace app\db\builder;
 
 class Where  implements IStatement
 {
-    private $wheres = [];
+    private $wheres;
 
     public function setWheres(IWhere $where)
     {
-        $this->wheres[] = $where;
+        $this->wheres = $where;
     }
 
-    public function getWheres() : array
+    public function getWheres() : IWhere
     {
         return $this->wheres;
     }

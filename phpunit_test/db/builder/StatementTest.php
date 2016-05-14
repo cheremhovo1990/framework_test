@@ -62,7 +62,7 @@ class StatementTest extends PHPUNit_framework_TestCase
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
         /* @var $and \app\db\builder\WhereAnd */
-        $and = $where->getWheres()[0];
+        $and = $where->getWheres();
         $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
         /* @var $string \app\db\builder\SqlString */
         $string = $and->getOperator()[0];
