@@ -41,18 +41,11 @@ abstract class Operator implements
                 $string->add($value);
             }
             if (is_array($value)) {
-                if ($value[0] === 'or') {
-                    array_shift($value);
-                    $or = new WhereOr();
-                    $this->add($or);
-                    $or->parser($value);
-                }
-                if ($value[0] === 'and') {
-                    array_shift($value);
-                    $or = new WhereAnd();
-                    $this->add($or);
-                    $or->parser($value);
-                }
+                $class = __NAMESPACE__ . '\\Where' . ucfirst($value[0]);
+                array_shift($value);
+                $obj = new $class();
+                $this->add($obj);
+                $obj->parser($value);
             }
         }
     }

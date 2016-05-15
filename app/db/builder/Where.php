@@ -38,21 +38,18 @@ class Where  implements IStatement
             $string = new SqlString();
             $string->add($statement);
             $and->add($string);
+            return ;
         }
-        if (is_array($statement)) {
-            if ($statement[0] === 'or') {
-                array_shift($statement);
-                $or = new WhereOr();
-                $this->add($or);
-                $or->parser($statement);
-            } else {
-                if ($statement[0] === 'and') {
-                    array_shift($statement);
-                }
-                $and = new WhereAnd();
-                $this->add($and);
-                $and->parser($statement);
-            }
+
+        $class = __NAMESPACE__ . '\\Where' . ucfirst($statement[0]);
+
+        if (!class_exists($class)) {
+            $obj = new WhereAnd();
+        } else {
+            $obj = new $class();
+            array_shift($statement);
         }
+        $this->add($obj);
+        $obj->parser($statement);
     }
 }
