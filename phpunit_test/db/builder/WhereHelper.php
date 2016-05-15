@@ -7,6 +7,8 @@
  * Time: 10:39
  */
 
+declare(strict_types=1);
+
 namespace unit\db\builder;
 
 class WhereHelper extends \PHPUnit_Framework_TestCase
@@ -22,8 +24,6 @@ class WhereHelper extends \PHPUnit_Framework_TestCase
 
     protected function assertSqlStringEquals(string $expect,\app\db\builder\SqlString $obj)
     {
-        /* @var $obj \app\db\builder\SqlString */
-
         $this->assertEquals($expect, $obj->getString());
     }
 }

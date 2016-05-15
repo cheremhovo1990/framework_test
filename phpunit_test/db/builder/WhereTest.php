@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class WhereTest extends unit\db\builder\WhereHelper
 {
-    private $where;
+    protected $where;
 
     public function setUp()
     {

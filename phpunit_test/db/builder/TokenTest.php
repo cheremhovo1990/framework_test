@@ -14,9 +14,9 @@ class FakerToken extends \app\db\builder\Token
 
 }
 
-class TokenTest extends PHPUnit_Framework_TestCase
+class TokenTest extends \unit\db\builder\TokenHelper
 {
-    public $token;
+    protected $token;
 
     public function setUp()
     {
@@ -26,21 +26,15 @@ class TokenTest extends PHPUnit_Framework_TestCase
     public function testParser1()
     {
         $this->token->parser('first');
-        /* @var $string \app\db\builder\SqlString */
-        $string = $this->token->getTokens()[0];
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
-        $this->assertEquals('first', $string->getString());
+        $this->assertSqlStringEquals('first', $this->token->getTokens()[0]);
     }
 
     public function testParser2()
     {
         $this->token->parser(['first', 'as_second' => 'second', 'third as as_third']);
         $tokens = $this->token->getTokens();
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $tokens[0]);
-        $this->assertEquals('first', $tokens[0]->getString());
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $tokens[1]);
-        $this->assertEquals('second AS as_second', $tokens[1]->getString());
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $tokens[2]);
-        $this->assertEquals('third as as_third', $tokens[2]->getString());
+        $this->assertSqlStringEquals('first', $tokens[0]);
+        $this->assertSqlStringEquals('second AS as_second', $tokens[1]);
+        $this->assertSqlStringEquals('third as as_third', $tokens[2]);
     }
 }
