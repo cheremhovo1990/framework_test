@@ -14,7 +14,7 @@ class FakerOperator extends \app\db\builder\Operator
 
 }
 
-class OperatorTest extends PHPUnit_Framework_TestCase
+class OperatorTest extends \unit\db\builder\OperatorHelper
 {
     public $operator;
 
@@ -25,24 +25,16 @@ class OperatorTest extends PHPUnit_Framework_TestCase
 
     public function testParser1()
     {
-        $this->operator->parser(['param=str1', ['or', 'param=str2', ['and', 'param=str3']]]);
-        /* @var $string \app\db\builder\SqlString */
-        $string = $this->operator->getOperator()[0];
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
-        $this->assertEquals('param=str1', $string->getString());
         /* @var $or \app\db\builder\WhereOr */
+        /* @var $and \app\db\builder\WhereAnd */
+
+        $this->operator->parser(['param=str1', ['or', 'param=str2', ['and', 'param=str3']]]);
+        $this->assertSqlStringEquals('param=str1', $this->operator->getOperator()[0]);
         $or = $this->operator->getOperator()[1];
         $this->assertInstanceOf(\app\db\builder\WhereOr::class, $or);
-        /* @var $string \app\db\builder\SqlString */
-        $string = $or->getOperator()[0];
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
-        $this->assertEquals('param=str2', $string->getString());
-        /* @var $and \app\db\builder\WhereAnd */
+        $this->assertSqlStringEquals('param=str2', $or->getOperator()[0]);
         $and = $or->getOperator()[1];
         $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
-        /* @var $string \app\db\builder\SqlString */
-        $string = $and->getOperator()[0];
-        $this->assertInstanceOf(\app\db\builder\SqlString::class, $string);
-        $this->assertEquals('param=str3', $string->getString());
+        $this->assertSqlStringEquals('param=str3', $and->getOperator()[0]);
     }
 }
