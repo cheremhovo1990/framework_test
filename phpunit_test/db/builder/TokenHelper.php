@@ -11,10 +11,6 @@ declare(strict_types=1);
 
 namespace unit\db\builder;
 
-class TokenHelper extends \PHPUnit_Framework_TestCase
+class TokenHelper extends Helper
 {
-    protected function assertSqlStringEquals(string $expect,\app\db\builder\SqlString $obj)
-    {
-        $this->assertEquals($expect, $obj->getString());
-    }
 }

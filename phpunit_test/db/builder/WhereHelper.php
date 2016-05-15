@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace unit\db\builder;
 
-class WhereHelper extends \PHPUnit_Framework_TestCase
+class WhereHelper extends Helper
 {
 
     protected function getFromWheres($param, $class)
@@ -20,10 +20,5 @@ class WhereHelper extends \PHPUnit_Framework_TestCase
         $wheres = $this->where->getWheres();
         $this->assertInstanceOf($class, $wheres);
         return $wheres;
-    }
-
-    protected function assertSqlStringEquals(string $expect,\app\db\builder\SqlString $obj)
-    {
-        $this->assertEquals($expect, $obj->getString());
     }
 }
