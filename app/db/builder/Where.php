@@ -13,32 +13,27 @@ namespace app\db\builder;
 
 class Where extends Query implements IStatement
 {
-    private $wheres;
+    private $where;
 
-    public function setWheres(IWhere $where)
+    public function setWhere(IWhere $where)
     {
-        $this->wheres = $where;
+        $this->where = $where;
     }
 
-    public function getWheres() : IWhere
+    public function getWhere() : IWhere
     {
-        return $this->wheres;
+        return $this->where;
     }
 
     public function add($where)
     {
-        $this->setWheres($where);
+        $this->setWhere($where);
     }
 
     public function parser($statement)
     {
         if (is_string($statement)) {
-            $and = new WhereAnd();
-            $this->add($and);
-            $string = new SqlString();
-            $string->add($statement);
-            $and->add($string);
-            return ;
+            $statement = ['and', $statement];
         }
 
         $class = __NAMESPACE__ . '\\Where' . ucfirst($statement[0]);

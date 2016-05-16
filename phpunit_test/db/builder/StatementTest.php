@@ -71,7 +71,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->parser(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
-        $and = $where->getWheres();
+        $and = $where->getWhere();
         $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
         $this->assertSqlStringEquals('str=param1', $and->getOperator()[0]);
         $or = $and->getOperator()[1];

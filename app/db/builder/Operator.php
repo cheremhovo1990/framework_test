@@ -22,9 +22,9 @@ abstract class Operator extends Query implements
         return $this->operator;
     }
 
-    public function setOperator(IOperator $or)
+    public function setOperator(IOperator $operator)
     {
-        $this->operator[] = $or;
+        $this->operator[] = $operator;
     }
 
     public function add($operator)
