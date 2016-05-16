@@ -17,9 +17,9 @@ abstract class Operator extends Query implements
 {
     private $operator = [];
 
-    public function getOperator() : array
+    public function add($operator)
     {
-        return $this->operator;
+        $this->setOperator($operator);
     }
 
     public function setOperator(IOperator $operator)
@@ -27,9 +27,9 @@ abstract class Operator extends Query implements
         $this->operator[] = $operator;
     }
 
-    public function add($operator)
+    public function getOperator() : array
     {
-        $this->setOperator($operator);
+        return $this->operator;
     }
 
     public function parser($statement)
@@ -41,9 +41,8 @@ abstract class Operator extends Query implements
     {
         foreach ($statement as $key => $value) {
             if (is_int($key) && is_string($value)) {
-                $string = new SqlString();
+                $string = new SqlString($value);
                 $this->add($string);
-                $string->add($value);
             }
             if (is_array($value)) {
                 $class = __NAMESPACE__ . '\\Where' . ucfirst($value[0]);

@@ -33,19 +33,16 @@ abstract class Token extends Query implements IStatement
     public function parser($statement)
     {
         if (is_string($statement)) {
-            $string = new SqlString();
-            $string->add($statement);
+            $string = new SqlString($statement);
             $this->add($string);
         } elseif(is_array($statement)) {
             foreach ($statement as $key => $elem) {
                 if (is_string($key) && is_string($elem)) {
-                    $string = new SqlString();
-                    $string->add($elem . ' AS ' . $key);
+                    $string = new SqlString($elem . ' AS ' . $key);
                     $this->add($string);
                 }
                 if (is_int($key) && is_string($elem)) {
-                    $string = new SqlString();
-                    $string->add($elem);
+                    $string = new SqlString($elem);
                     $this->add($string);
                 }
             }

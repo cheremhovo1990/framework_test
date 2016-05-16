@@ -15,12 +15,12 @@ class SqlString extends Query implements IOperator
 {
     private $string;
 
-    public function add($str)
+    public function __construct(string $str)
     {
         $this->setString($str);
     }
 
-    public function getString()
+    public function getString() : string
     {
         return $this->string;
     }
