@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-abstract class Token implements IStatement
+abstract class Token extends Query implements IStatement
 {
     protected $tokens = [];
 
-    public function add(SqlString $select)
+    public function add($select)
     {
         $this->setTokens($select);
     }

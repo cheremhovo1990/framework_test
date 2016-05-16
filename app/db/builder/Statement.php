@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace app\db\builder;
 
-class Statement
+class Statement extends Query
 {
     private $statements;
     protected $class;
@@ -21,29 +21,9 @@ class Statement
         $this->setClass($token);
     }
 
-    public function getClass()
-    {
-        return $this->class;
-    }
-
     public function setClass($token)
     {
         $this->class = __NAMESPACE__ . '\\' . ucfirst($token);
-    }
-
-    public function add(IStatement $statement)
-    {
-        $this->setStatements($statement);
-    }
-
-    public function getStatements() : array
-    {
-        return $this->statements;
-    }
-
-    public function setStatements(IStatement $statement)
-    {
-        $this->statements[] = $statement;
     }
 
     public function parser($statement)
@@ -52,5 +32,25 @@ class Statement
         $sqlObject = new $class();
         $this->add($sqlObject);
         $sqlObject->parser($statement);
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function add($statement)
+    {
+        $this->setStatements($statement);
+    }
+
+    public function setStatements(IStatement $statement)
+    {
+        $this->statements[] = $statement;
+    }
+
+    public function getStatements() : array
+    {
+        return $this->statements;
     }
 }

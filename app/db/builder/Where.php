@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class Where  implements IStatement
+class Where extends Query implements IStatement
 {
     private $wheres;
 
@@ -25,7 +25,7 @@ class Where  implements IStatement
         return $this->wheres;
     }
 
-    public function add(IWhere $where)
+    public function add($where)
     {
         $this->setWheres($where);
     }

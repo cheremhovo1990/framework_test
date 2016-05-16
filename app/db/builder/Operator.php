@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-abstract class Operator implements
+abstract class Operator extends Query implements
     IOperator,
     IWhere
 {
@@ -27,12 +27,17 @@ abstract class Operator implements
         $this->operator[] = $or;
     }
 
-    public function add(IOperator $or)
+    public function add($operator)
     {
-        $this->setOperator($or);
+        $this->setOperator($operator);
     }
 
-    public function parser(array $statement)
+    public function parser($statement)
+    {
+        $this->parserArray($statement);
+    }
+
+    protected function parserArray(array $statement)
     {
         foreach ($statement as $key => $value) {
             if (is_int($key) && is_string($value)) {

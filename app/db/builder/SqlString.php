@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class SqlString implements IOperator
+class SqlString extends Query implements IOperator
 {
     private $string;
 
-    public function add(string $str)
+    public function add($str)
     {
         $this->setString($str);
     }
