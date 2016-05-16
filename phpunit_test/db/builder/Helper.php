@@ -17,4 +17,13 @@ class Helper extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expect, $obj->getString());
     }
+
+
+    protected function getWhereOperator(\app\db\builder\Where $where, $class)
+    {
+        $operator = $where->getWhere();
+        $this->assertInstanceOf($class, $operator);
+        return $operator;
+    }
+
 }

@@ -71,11 +71,37 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->parser(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
-        $and = $where->getWhere();
-        $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
+        $and = $this->getWhereOperator($where, \app\db\builder\WhereAnd::class);
         $this->assertSqlStringEquals('str=param1', $and->getOperator()[0]);
         $or = $and->getOperator()[1];
         $this->assertInstanceOf(\app\db\builder\WhereOr::class, $or);
         $this->assertSqlStringEquals('str=param2', $or->getOperator()[0]);
+    }
+
+    /**
+     * @expectedException TypeError
+     */
+    public function testParser6()
+    {
+        $this->statement->setClass('whereAnd');
+        $this->statement->parser([]);
+    }
+
+    /**
+     * @expectedException TypeError
+     */
+    public function testParser7()
+    {
+        $this->statement->setClass('SqlString');
+        $this->statement->parser([]);
+    }
+
+    /**
+     * @expectedException TypeError
+     */
+    public function testParser8()
+    {
+        $this->statement->setClass('Statement');
+        $this->statement->parser([]);
     }
 }

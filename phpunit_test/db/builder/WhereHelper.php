@@ -13,12 +13,10 @@ namespace unit\db\builder;
 
 class WhereHelper extends Helper
 {
-
-    protected function getFromWheres($param, $class)
+    protected function getFromWhere($param, $class)
     {
         $this->where->parser($param);
-        $wheres = $this->where->getWhere();
-        $this->assertInstanceOf($class, $wheres);
-        return $wheres;
+        $operator = $this->getWhereOperator($this->where, $class);
+        return $operator;
     }
 }
