@@ -8,14 +8,15 @@ class StatementTest extends unit\db\builder\StatementHelper
 
     public function setUp()
     {
-        $this->statement = new \app\db\builder\Statement();
+        $this->statement = new \app\db\builder\Statement('select');
     }
 
     public function testParser1()
     {
         /* @var $select \app\db\builder\Select */
 
-        $this->statement->parser('select', 'first');
+        $this->statement->setClass('select');
+        $this->statement->parser('first');
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $this->assertSqlStringEquals('first', $select->getTokens()[0]);
@@ -25,7 +26,8 @@ class StatementTest extends unit\db\builder\StatementHelper
     {
         /* @var $select \app\db\builder\Select */
 
-        $this->statement->parser('select', ['first', 'as_second' => 'second', 'third as as_third']);
+        $this->statement->setClass('select');
+        $this->statement->parser(['first', 'as_second' => 'second', 'third as as_third']);
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $selects = $select->getTokens();
@@ -38,7 +40,8 @@ class StatementTest extends unit\db\builder\StatementHelper
     {
         /* @var $from \app\db\builder\From */
 
-        $this->statement->parser('from', 'first');
+        $this->statement->setClass('from');
+        $this->statement->parser('first');
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
         $this->assertSqlStringEquals('first', $from->getTokens()[0]);
@@ -48,7 +51,8 @@ class StatementTest extends unit\db\builder\StatementHelper
     {
         /* @var $from \app\db\builder\From */
 
-        $this->statement->parser('from', ['first', 'as_second' => 'second', 'third as as_third']);
+        $this->statement->setClass('from');
+        $this->statement->parser(['first', 'as_second' => 'second', 'third as as_third']);
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
         $froms = $from->getTokens();
@@ -63,7 +67,8 @@ class StatementTest extends unit\db\builder\StatementHelper
         /* @var $and \app\db\builder\WhereAnd */
         /* @var $or \app\db\builder\WhereOr */
 
-        $this->statement->parser('where', ['str=param1', ['or', 'str=param2']]);
+        $this->statement->setClass('where');
+        $this->statement->parser(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
         $and = $where->getWheres();

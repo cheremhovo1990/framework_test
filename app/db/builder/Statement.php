@@ -12,7 +12,24 @@ namespace app\db\builder;
 
 class Statement
 {
-    private $statements = [];
+    private $statements;
+    protected $class;
+
+
+    public function __construct(string $token)
+    {
+        $this->setClass($token);
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function setClass($token)
+    {
+        $this->class = __NAMESPACE__ . '\\' . ucfirst($token);
+    }
 
     public function add(IStatement $statement)
     {
@@ -29,9 +46,9 @@ class Statement
         $this->statements[] = $statement;
     }
 
-    public function parser(string $token, $statement)
+    public function parser($statement)
     {
-        $class = '\\app\\db\\builder\\' . ucfirst($token);
+        $class = $this->getClass();
         $sqlObject = new $class();
         $this->add($sqlObject);
         $sqlObject->parser($statement);

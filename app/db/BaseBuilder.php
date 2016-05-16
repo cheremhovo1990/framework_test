@@ -28,8 +28,8 @@ abstract class BaseBuilder
     
     protected function parser(string $token, $statement)
     {
-        $sql = new Statement();
+        $sql = new Statement($token);
         $this->setStatement($sql);
-        $sql->parser($token, $statement);
+        $sql->parser($statement);
     }
 }
