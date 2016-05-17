@@ -14,6 +14,7 @@ namespace app\db\builder;
 class Where extends Query implements IStatement
 {
     private $where;
+    private $parameter = null;
 
     public function setWhere(IWhere $where)
     {
@@ -44,7 +45,24 @@ class Where extends Query implements IStatement
             $obj = new $class();
             array_shift($statement);
         }
+
+        if ($obj instanceof Operator ) {
+            if (!is_null($this->getParameter())) {
+                $obj->setParameter($this->getParameter());
+            }
+        }
+
         $this->add($obj);
         $obj->parser($statement);
+    }
+
+    public function setParameter(Parameter $parameter)
+    {
+        $this->parameter = $parameter;
+    }
+
+    public function getParameter()
+    {
+        return $this->parameter;
     }
 }

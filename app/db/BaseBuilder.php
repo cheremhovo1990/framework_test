@@ -26,9 +26,14 @@ abstract class BaseBuilder
         $this->statement = $statement;
     }
     
-    protected function parser(string $token, $statement)
+    protected function parser(string $token, $statement,array $parameters = null)
     {
         $sql = new Statement($token);
+        if (!is_null($parameters)) {
+            $parameter =  new builder\Parameter();
+            $parameter->setParameters($parameters);
+            $sql->setParameter($parameter);
+        }
         $this->setStatement($sql);
         $sql->parser($statement);
     }

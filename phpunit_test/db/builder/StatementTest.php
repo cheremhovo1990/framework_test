@@ -104,4 +104,19 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->setClass('Statement');
         $this->statement->parser([]);
     }
+
+    public function testParser9()
+    {
+        $parameter = new \app\db\builder\Parameter();
+        $parameter->setParameters([':param1' => 'response1']);
+        $this->statement->setParameter($parameter);
+
+        $this->statement->setClass('where');
+        $this->statement->parser('str=:param1');
+        $where = $this->statement->getStatements()[0];
+        $this->assertInstanceOf(\app\db\builder\Where::class, $where);
+        $and = $this->getWhereOperator($where, \app\db\builder\WhereAnd::class);
+        $this->assertSqlStringEquals('str=:bq0', $and->getOperator()[0]);
+        $this->assertEquals([':bq0' => 'response1'], $and->getParameter()->getActuals());
+    }
 }

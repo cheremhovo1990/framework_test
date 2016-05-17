@@ -15,8 +15,8 @@ class BuilderQuery extends BaseBuilder
         $this->parser('from', $from);
     }
 
-    public function where($where)
+    public function where($where, $parameters = null)
     {
-        $this->parser('where', $where);
+        $this->parser('where', $where, $parameters);
     }
 }

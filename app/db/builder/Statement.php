@@ -14,7 +14,7 @@ class Statement extends Query
 {
     private $statements;
     protected $class;
-
+    private $parameter = null;
 
     public function __construct(string $token)
     {
@@ -31,6 +31,11 @@ class Statement extends Query
         $class = $this->getClass();
         $sqlObject = new $class();
         $this->add($sqlObject);
+        if ($sqlObject instanceof Where ) {
+            if (!is_null($this->getParameter())) {
+                $sqlObject->setParameter($this->getParameter());
+            }
+        }
         $sqlObject->parser($statement);
     }
 
@@ -52,5 +57,15 @@ class Statement extends Query
     public function getStatements() : array
     {
         return $this->statements;
+    }
+
+    public function setParameter(Parameter $parameter)
+    {
+        $this->parameter = $parameter;
+    }
+
+    public function getParameter()
+    {
+        return $this->parameter;
     }
 }

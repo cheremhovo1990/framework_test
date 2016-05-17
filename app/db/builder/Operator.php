@@ -16,6 +16,7 @@ abstract class Operator extends Query implements
     IWhere
 {
     private $operator = [];
+    private $parameter = null;
 
     public function add($operator)
     {
@@ -41,16 +42,33 @@ abstract class Operator extends Query implements
     {
         foreach ($statement as $key => $value) {
             if (is_int($key) && is_string($value)) {
-                $string = new SqlString($value);
+                $string = new WhereString($value);
+                if (!is_null($this->getParameter())) {
+                    $string->filter($this->getParameter());
+                }
                 $this->add($string);
             }
             if (is_array($value)) {
                 $class = __NAMESPACE__ . '\\Where' . ucfirst($value[0]);
                 array_shift($value);
                 $obj = new $class();
+                if (!is_null($this->getParameter())) {
+                    $obj->setParameter($this->getParameter());
+                }
                 $this->add($obj);
                 $obj->parser($value);
             }
         }
     }
+
+    public function setParameter(Parameter $parameter)
+    {
+        $this->parameter = $parameter;
+    }
+
+    public function getParameter()
+    {
+        return $this->parameter;
+    }
+
 }
