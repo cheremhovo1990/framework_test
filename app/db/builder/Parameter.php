@@ -15,6 +15,7 @@ class Parameter
 {
     protected $parameters = [];
     protected $actuals = [];
+    protected $whereSting = [];
 
     public function getParameters() : array
     {
@@ -54,5 +55,20 @@ class Parameter
         $identify = ':bq' . $number;
         $number++;
         return $identify;
+    }
+
+    public function addWhereString(WhereString $WhereString)
+    {
+        if (strpos($WhereString->getString(), ':') != false) {
+            $this->whereSting[] = $WhereString;
+        }
+    }
+
+    public function convert($string, $parameter)
+    {
+        $identify = static::identify();
+        $string .= '=' . $identify;
+        $this->setActuals([$identify => $parameter]);
+        return $string;
     }
 }

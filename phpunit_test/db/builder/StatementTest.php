@@ -68,6 +68,8 @@ class StatementTest extends unit\db\builder\StatementHelper
         /* @var $or \app\db\builder\WhereOr */
 
         $this->statement->setClass('where');
+        $parameter = new \app\db\builder\Parameter();
+        $this->statement->setParameter($parameter);
         $this->statement->parser(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);

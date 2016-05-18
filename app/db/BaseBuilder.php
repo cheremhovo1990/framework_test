@@ -29,10 +29,10 @@ abstract class BaseBuilder
     protected function parser(string $token, $statement,array $parameters = null)
     {
         $sql = new Statement($token);
+        $parameter =  new builder\Parameter();
+        $sql->setParameter($parameter);
         if (!is_null($parameters)) {
-            $parameter =  new builder\Parameter();
             $parameter->setParameters($parameters);
-            $sql->setParameter($parameter);
         }
         $this->setStatement($sql);
         $sql->parser($statement);

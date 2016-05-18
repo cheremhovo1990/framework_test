@@ -46,11 +46,8 @@ class Where extends Query implements IStatement
             array_shift($statement);
         }
 
-        if ($obj instanceof Operator ) {
-            if (!is_null($this->getParameter())) {
-                $obj->setParameter($this->getParameter());
-            }
-        }
+        $obj->setParameter($this->getParameter());
+
 
         $this->add($obj);
         $obj->parser($statement);

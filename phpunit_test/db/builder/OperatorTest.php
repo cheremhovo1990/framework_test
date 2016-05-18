@@ -21,6 +21,7 @@ class OperatorTest extends \unit\db\builder\OperatorHelper
     public function setUp()
     {
         $this->operator = new FakerOperator();
+        $this->operator->setParameter(new \app\db\builder\Parameter());
     }
 
     public function testParser1()

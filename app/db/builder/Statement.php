@@ -32,9 +32,7 @@ class Statement extends Query
         $sqlObject = new $class();
         $this->add($sqlObject);
         if ($sqlObject instanceof Where ) {
-            if (!is_null($this->getParameter())) {
-                $sqlObject->setParameter($this->getParameter());
-            }
+            $sqlObject->setParameter($this->getParameter());
         }
         $sqlObject->parser($statement);
     }
