@@ -118,7 +118,8 @@ class StatementTest extends unit\db\builder\StatementHelper
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
         $and = $this->getWhereOperator($where, \app\db\builder\WhereAnd::class);
-        $this->assertSqlStringEquals('str=:bq0', $and->getOperator()[0]);
-        $this->assertEquals([':bq0' => 'response1'], $and->getParameter()->getActuals());
+        $identify = \unit\db\builder\Helper::identify();
+        $this->assertSqlStringEquals('str=' . $identify, $and->getOperator()[0]);
+        $this->assertEquals([$identify => 'response1'], $and->getParameter()->getActuals());
     }
 }

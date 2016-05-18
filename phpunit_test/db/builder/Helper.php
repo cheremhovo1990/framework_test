@@ -26,4 +26,11 @@ class Helper extends \PHPUnit_Framework_TestCase
         return $operator;
     }
 
+    public static function identify()
+    {
+        static $number = 0;
+        $identify = ':bq' . $number;
+        $number++;
+        return $identify;
+    }
 }

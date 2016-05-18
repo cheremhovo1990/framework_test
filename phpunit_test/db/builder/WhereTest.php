@@ -53,7 +53,8 @@ class WhereTest extends unit\db\builder\WhereHelper
     public function testParser5()
     {
         $and = $this->getFromWhere(['and', 'str1' => 'param1'], \app\db\builder\WhereAnd::class);
-        $this->assertSqlStringEquals('str1=:bq1', $and->getOperator()[0]);
-        $this->assertEquals([':bq1' => 'param1'], $and->getParameter()->getActuals());
+        $identify = \unit\db\builder\Helper::identify();
+        $this->assertSqlStringEquals('str1=' . $identify, $and->getOperator()[0]);
+        $this->assertEquals([$identify => 'param1'], $and->getParameter()->getActuals());
     }
 }
