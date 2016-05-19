@@ -69,7 +69,7 @@ abstract class Operator extends Query implements
         }
     }
 
-    public function setParameter(Parameter $parameter)
+    public function setParameter(PreparedStatement $parameter)
     {
         $this->parameter = $parameter;
     }

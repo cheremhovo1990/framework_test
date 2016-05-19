@@ -14,7 +14,7 @@ namespace app\db\builder;
 class WhereString extends SqlString
 {
 
-    public function filter(Parameter $parameter)
+    public function filter(PreparedStatement $parameter)
     {
         $str = $this->getString();
         $str = $parameter->filter($str);

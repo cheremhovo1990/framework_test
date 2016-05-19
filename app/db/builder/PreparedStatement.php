@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\db\builder;
 
 
-class Parameter
+class PreparedStatement
 {
     protected $parameters = [];
     protected $actuals = [];

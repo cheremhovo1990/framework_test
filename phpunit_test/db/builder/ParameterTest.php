@@ -15,7 +15,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->parameter = new \app\db\builder\Parameter();
+        $this->parameter = new \app\db\builder\PreparedStatement();
     }
 
     public function testFilter1()

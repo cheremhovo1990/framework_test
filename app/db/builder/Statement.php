@@ -57,7 +57,7 @@ class Statement extends Query
         return $this->statements;
     }
 
-    public function setParameter(Parameter $parameter)
+    public function setParameter(PreparedStatement $parameter)
     {
         $this->parameter = $parameter;
     }

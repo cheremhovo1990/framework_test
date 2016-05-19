@@ -9,7 +9,7 @@ class WhereTest extends unit\db\builder\WhereHelper
     public function setUp()
     {
         $this->where = new app\db\builder\Where();
-        $this->where->setParameter(new \app\db\builder\Parameter());
+        $this->where->setParameter(new \app\db\builder\PreparedStatement());
     }
 
     public function testParser1()

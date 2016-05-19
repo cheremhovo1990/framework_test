@@ -68,7 +68,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         /* @var $or \app\db\builder\WhereOr */
 
         $this->statement->setClass('where');
-        $parameter = new \app\db\builder\Parameter();
+        $parameter = new \app\db\builder\PreparedStatement();
         $this->statement->setParameter($parameter);
         $this->statement->parser(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
@@ -109,7 +109,7 @@ class StatementTest extends unit\db\builder\StatementHelper
 
     public function testParser9()
     {
-        $parameter = new \app\db\builder\Parameter();
+        $parameter = new \app\db\builder\PreparedStatement();
         $parameter->setParameters([':param1' => 'response1']);
         $this->statement->setParameter($parameter);
 
