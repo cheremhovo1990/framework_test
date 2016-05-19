@@ -5,14 +5,14 @@ namespace app\db\builder;
 
 trait TPreparedStatement
 {
-    protected $parameter = null;
+    private $parameter;
 
-    public function setParameter(PreparedStatement $parameter)
+    public function setPreparedStatement(PreparedStatement $parameter)
     {
         $this->parameter = $parameter;
     }
 
-    public function getParameter()
+    public function getPreparedStatement() : PreparedStatement
     {
         return $this->parameter;
     }

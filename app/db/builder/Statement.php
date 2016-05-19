@@ -15,7 +15,7 @@ class Statement extends Query
     use TPreparedStatement;
 
     private $statements;
-    protected $class;
+    private $class;
 
     public function __construct(string $token)
     {
@@ -33,7 +33,7 @@ class Statement extends Query
         $sqlObject = new $class();
         $this->add($sqlObject);
         if ($sqlObject instanceof Where ) {
-            $sqlObject->setParameter($this->getParameter());
+            $sqlObject->setPreparedStatement($this->getPreparedStatement());
         }
         $sqlObject->parser($statement);
     }

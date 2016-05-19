@@ -17,6 +17,11 @@ class Where extends Query implements IStatement
 
     private $where;
 
+    public function add($where)
+    {
+        $this->setWhere($where);
+    }
+
     public function setWhere(IWhere $where)
     {
         $this->where = $where;
@@ -25,11 +30,6 @@ class Where extends Query implements IStatement
     public function getWhere() : IWhere
     {
         return $this->where;
-    }
-
-    public function add($where)
-    {
-        $this->setWhere($where);
     }
 
     public function parser($statement)
@@ -47,7 +47,7 @@ class Where extends Query implements IStatement
             array_shift($statement);
         }
 
-        $obj->setParameter($this->getParameter());
+        $obj->setPreparedStatement($this->getPreparedStatement());
 
 
         $this->add($obj);

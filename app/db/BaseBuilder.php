@@ -14,7 +14,7 @@ use app\db\builder\Statement;
 
 abstract class BaseBuilder
 {
-    public $statement;
+    protected $statement;
 
     public function getStatement() : Statement
     {
@@ -30,7 +30,7 @@ abstract class BaseBuilder
     {
         $sql = new Statement($token);
         $parameter =  new builder\PreparedStatement();
-        $sql->setParameter($parameter);
+        $sql->setPreparedStatement($parameter);
         if (!is_null($parameters)) {
             $parameter->setParameters($parameters);
         }

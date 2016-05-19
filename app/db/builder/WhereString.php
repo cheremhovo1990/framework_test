@@ -13,11 +13,12 @@ namespace app\db\builder;
 
 class WhereString extends SqlString
 {
+    use TPreparedStatement;
 
-    public function filter(PreparedStatement $parameter)
+    public function preformBindParam()
     {
         $str = $this->getString();
-        $str = $parameter->filter($str);
+        $str = $this->getPreparedStatement()->bindParam($str);
         $this->setString($str);
     }
 }

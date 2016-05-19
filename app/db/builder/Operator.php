@@ -41,19 +41,18 @@ abstract class Operator extends Query implements
 
     protected function parserArray(array $statement)
     {
-        $parameter = $this->getParameter();
+        $parameter = $this->getPreparedStatement();
 
         foreach ($statement as $key => $value) {
             if (is_int($key) && is_string($value)) {
                 $string = new WhereString($value);
                 $parameter->addWhereString($string);
-                if (!is_null($this->getParameter())) {
-                    $string->filter($parameter);
-                }
+                $string->setPreparedStatement($this->getPreparedStatement());
+                $string->preformBindParam();
                 $this->add($string);
             }
             if (is_string($key) && (is_string($value) || is_int($value))) {
-                $str = $parameter->convert($key, $value);
+                $str = $parameter->bindValue($key, $value);
                 $string = new WhereString($str);
                 $this->add($string);
             }
@@ -62,7 +61,7 @@ abstract class Operator extends Query implements
                 array_shift($value);
                 $obj = new $class();
 
-                $obj->setParameter($parameter);
+                $obj->setPreparedStatement($parameter);
 
                 $this->add($obj);
                 $obj->parser($value);

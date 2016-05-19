@@ -9,7 +9,7 @@ class WhereTest extends unit\db\builder\WhereHelper
     public function setUp()
     {
         $this->where = new app\db\builder\Where();
-        $this->where->setParameter(new \app\db\builder\PreparedStatement());
+        $this->where->setPreparedStatement(new \app\db\builder\PreparedStatement());
     }
 
     public function testParser1()
@@ -55,6 +55,6 @@ class WhereTest extends unit\db\builder\WhereHelper
         $and = $this->getFromWhere(['and', 'str1' => 'param1'], \app\db\builder\WhereAnd::class);
         $identify = \unit\db\builder\Helper::identify();
         $this->assertSqlStringEquals('str1=' . $identify, $and->getOperator()[0]);
-        $this->assertEquals([$identify => 'param1'], $and->getParameter()->getActuals());
+        $this->assertEquals([$identify => 'param1'], $and->getPreparedStatement()->getPreparedParameters());
     }
 }

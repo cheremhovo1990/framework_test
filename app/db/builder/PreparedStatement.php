@@ -17,34 +17,34 @@ class PreparedStatement
     protected $actuals = [];
     protected $whereSting = [];
 
-    public function getParameters() : array
+    public function getPreparedStatements() : array
     {
         return $this->parameters;
     }
 
-    public function setParameters(array $parameters)
+    public function setPreparedStatements(array $parameters)
     {
         $this->parameters = $this->parameters + $parameters;
     }
 
-    public function filter(string $str)
+    public function bindParam(string $str)
     {
-        foreach ($this->getParameters() as $key => $value) {
+        foreach ($this->getPreparedStatements() as $key => $value) {
             if (strpos($str, $key) != false) {
                 $identify = static::identify();
                 $str = str_replace($key, $identify, $str);
-                $this->setActuals([$identify => $value]);
+                $this->setPreparedParameters([$identify => $value]);
             }
         }
         return $str;
     }
 
-    public function setActuals(array $actuals)
+    public function setPreparedParameters(array $actuals)
     {
         $this->actuals = $this->actuals + $actuals;
     }
 
-    public function getActuals() : array
+    public function getPreparedParameters() : array
     {
         return $this->actuals;
     }
@@ -64,11 +64,11 @@ class PreparedStatement
         }
     }
 
-    public function convert($string, $parameter)
+    public function bindValue($string, $parameter)
     {
         $identify = static::identify();
         $string .= '=' . $identify;
-        $this->setActuals([$identify => $parameter]);
+        $this->setPreparedParameters([$identify => $parameter]);
         return $string;
     }
 }

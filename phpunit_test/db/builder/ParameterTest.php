@@ -20,19 +20,19 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 
     public function testFilter1()
     {
-        $this->parameter->setParameters([':param1' => 'response']);
-        $str = $this->parameter->filter('str=:param1');
+        $this->parameter->setPreparedStatements([':param1' => 'response']);
+        $str = $this->parameter->bindParam('str=:param1');
         $identify = \unit\db\builder\Helper::identify();
         $this->assertEquals('str=' . $identify, $str);
-        $this->assertEquals([$identify => 'response'], $this->parameter->getActuals());
+        $this->assertEquals([$identify => 'response'], $this->parameter->getPreparedParameters());
     }
 
-    public function testConvert1()
+    public function testBindValue1()
     {
-        $str = $this->parameter->convert('str', 'param');
+        $str = $this->parameter->bindValue('str', 'param');
         $identify = \unit\db\builder\Helper::identify();
         $this->assertEquals('str=' . $identify, $str);
-        $this->assertEquals([$identify => 'param'], $this->parameter->getActuals());
+        $this->assertEquals([$identify => 'param'], $this->parameter->getPreparedParameters());
     }
 
 }
