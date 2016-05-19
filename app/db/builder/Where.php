@@ -13,8 +13,9 @@ namespace app\db\builder;
 
 class Where extends Query implements IStatement
 {
+    use TPreparedStatement;
+
     private $where;
-    private $parameter = null;
 
     public function setWhere(IWhere $where)
     {
@@ -51,15 +52,5 @@ class Where extends Query implements IStatement
 
         $this->add($obj);
         $obj->parser($statement);
-    }
-
-    public function setParameter(PreparedStatement $parameter)
-    {
-        $this->parameter = $parameter;
-    }
-
-    public function getParameter()
-    {
-        return $this->parameter;
     }
 }

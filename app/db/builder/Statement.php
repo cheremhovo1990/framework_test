@@ -12,9 +12,10 @@ namespace app\db\builder;
 
 class Statement extends Query
 {
+    use TPreparedStatement;
+
     private $statements;
     protected $class;
-    private $parameter = null;
 
     public function __construct(string $token)
     {
@@ -55,15 +56,5 @@ class Statement extends Query
     public function getStatements() : array
     {
         return $this->statements;
-    }
-
-    public function setParameter(PreparedStatement $parameter)
-    {
-        $this->parameter = $parameter;
-    }
-
-    public function getParameter()
-    {
-        return $this->parameter;
     }
 }

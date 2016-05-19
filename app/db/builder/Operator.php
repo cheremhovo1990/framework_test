@@ -15,8 +15,9 @@ abstract class Operator extends Query implements
     IOperator,
     IWhere
 {
+    use TPreparedStatement;
+
     private $operator = [];
-    private $parameter = null;
 
     public function add($operator)
     {
@@ -68,15 +69,4 @@ abstract class Operator extends Query implements
             }
         }
     }
-
-    public function setParameter(PreparedStatement $parameter)
-    {
-        $this->parameter = $parameter;
-    }
-
-    public function getParameter()
-    {
-        return $this->parameter;
-    }
-
 }
