@@ -30,10 +30,12 @@ abstract class BaseBuilder
     {
         $sql = new Statement($token);
         $parameter =  new builder\PreparedStatement();
+        $shield = new builder\Shield();
         $sql->setPreparedStatement($parameter);
         if (!is_null($parameters)) {
-            $parameter->setParameters($parameters);
+            $parameter->setPreparedStatements($parameters);
         }
+        $sql->setShield($shield);
         $this->setStatement($sql);
         $sql->arrangeStatement($statement);
     }

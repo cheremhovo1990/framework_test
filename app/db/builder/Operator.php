@@ -15,7 +15,8 @@ abstract class Operator extends Query implements
     IOperator,
     IWhere
 {
-    use TPreparedStatement;
+    use TPreparedStatement,
+        TShield;
 
     private $operator = [];
 

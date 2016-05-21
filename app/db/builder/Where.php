@@ -13,7 +13,8 @@ namespace app\db\builder;
 
 class Where extends Query implements IStatement
 {
-    use TPreparedStatement;
+    use TPreparedStatement,
+        TShield;
 
     private $where;
 

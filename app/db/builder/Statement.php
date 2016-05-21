@@ -12,7 +12,8 @@ namespace app\db\builder;
 
 class Statement extends Query
 {
-    use TPreparedStatement;
+    use TPreparedStatement,
+        TShield;
 
     private $statements;
     private $class;
@@ -35,6 +36,7 @@ class Statement extends Query
         if ($sqlObject instanceof Where ) {
             $sqlObject->setPreparedStatement($this->getPreparedStatement());
         }
+        $sqlObject->setShield($this->getShield());
         $sqlObject->arrangeStatement($statement);
     }
 

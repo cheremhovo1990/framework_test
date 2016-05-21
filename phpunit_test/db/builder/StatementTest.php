@@ -9,6 +9,8 @@ class StatementTest extends unit\db\builder\StatementHelper
     public function setUp()
     {
         $this->statement = new \app\db\builder\Statement('select');
+        $shield = new \app\db\builder\Shield();
+        $this->statement->setShield($shield);
     }
 
     public function testArrangeStatement1()
@@ -19,7 +21,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement('first');
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
-        $this->assertSqlStringEquals('first', $select->getTokens()[0]);
+        $this->assertSqlStringEquals('`first`', $select->getTokens()[0]);
     }
 
     public function testArrangeStatement2()
@@ -31,9 +33,9 @@ class StatementTest extends unit\db\builder\StatementHelper
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $selects = $select->getTokens();
-        $this->assertSqlStringEquals('first', $selects[0]);
-        $this->assertSqlStringEquals('second AS as_second', $selects[1]);
-        $this->assertSqlStringEquals('third as as_third', $selects[2]);
+        $this->assertSqlStringEquals('`first`', $selects[0]);
+        $this->assertSqlStringEquals('`second` AS `as_second`', $selects[1]);
+        $this->assertSqlStringEquals('`third` AS `as_third`', $selects[2]);
     }
 
     public function testArrangeStatement3()
@@ -44,7 +46,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement('first');
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $this->assertSqlStringEquals('first', $from->getTokens()[0]);
+        $this->assertSqlStringEquals('`first`', $from->getTokens()[0]);
     }
 
     public function testArrangeStatement4()
@@ -56,9 +58,9 @@ class StatementTest extends unit\db\builder\StatementHelper
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
         $froms = $from->getTokens();
-        $this->assertSqlStringEquals('first', $froms[0]);
-        $this->assertSqlStringEquals('second AS as_second', $froms[1]);
-        $this->assertSqlStringEquals('third as as_third', $froms[2]);
+        $this->assertSqlStringEquals('`first`', $froms[0]);
+        $this->assertSqlStringEquals('`second` AS `as_second`', $froms[1]);
+        $this->assertSqlStringEquals('`third` AS `as_third`', $froms[2]);
     }
 
     public function testArrangeStatement5()
