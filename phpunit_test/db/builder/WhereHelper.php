@@ -15,7 +15,7 @@ class WhereHelper extends Helper
 {
     protected function getFromWhere($param, $class)
     {
-        $this->where->parser($param);
+        $this->where->arrangeStatement($param);
         $operator = $this->getWhereOperator($this->where, $class);
         return $operator;
     }

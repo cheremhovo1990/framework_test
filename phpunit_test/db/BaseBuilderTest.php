@@ -14,12 +14,12 @@ class BaseBuilderTest extends \unit\_helper\Helper
     public function testParser()
     {
         $builder = new FakerBaseBuilder();
-        $this->callMethod($builder, 'parser', ['select', 'column']);
+        $this->callMethod($builder, 'arrangeStatement', ['select', 'column']);
         $selectString = $this->selectString($builder);
         $this->assertEquals('column', $selectString[0]->getString());
 
         $builder = new FakerBaseBuilder();
-        $this->callMethod($builder, 'parser', ['select', ['first', 'as_second' => 'second', 'third as as_third']]);
+        $this->callMethod($builder, 'arrangeStatement', ['select', ['first', 'as_second' => 'second', 'third as as_third']]);
         $selectString = $this->selectString($builder);
         $this->assertEquals('first', $selectString[0]->getString());
         $this->assertEquals('second AS as_second', $selectString[1]->getString());

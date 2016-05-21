@@ -17,7 +17,7 @@ abstract class Query
         throw \Exception();
     }
     
-    public function parser($statement)
+    public function arrangeStatement($statement)
     {
         throw \Exception();
     }

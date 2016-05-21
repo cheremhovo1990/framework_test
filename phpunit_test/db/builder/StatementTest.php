@@ -11,23 +11,23 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement = new \app\db\builder\Statement('select');
     }
 
-    public function testParser1()
+    public function testArrangeStatement1()
     {
         /* @var $select \app\db\builder\Select */
 
         $this->statement->setClass('select');
-        $this->statement->parser('first');
+        $this->statement->arrangeStatement('first');
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $this->assertSqlStringEquals('first', $select->getTokens()[0]);
     }
 
-    public function testParser2()
+    public function testArrangeStatement2()
     {
         /* @var $select \app\db\builder\Select */
 
         $this->statement->setClass('select');
-        $this->statement->parser(['first', 'as_second' => 'second', 'third as as_third']);
+        $this->statement->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
         $selects = $select->getTokens();
@@ -36,23 +36,23 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->assertSqlStringEquals('third as as_third', $selects[2]);
     }
 
-    public function testParser3()
+    public function testArrangeStatement3()
     {
         /* @var $from \app\db\builder\From */
 
         $this->statement->setClass('from');
-        $this->statement->parser('first');
+        $this->statement->arrangeStatement('first');
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
         $this->assertSqlStringEquals('first', $from->getTokens()[0]);
     }
 
-    public function testParser4()
+    public function testArrangeStatement4()
     {
         /* @var $from \app\db\builder\From */
 
         $this->statement->setClass('from');
-        $this->statement->parser(['first', 'as_second' => 'second', 'third as as_third']);
+        $this->statement->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
         $froms = $from->getTokens();
@@ -61,7 +61,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->assertSqlStringEquals('third as as_third', $froms[2]);
     }
 
-    public function testParser5()
+    public function testArrangeStatement5()
     {
         /* @var $where \app\db\builder\Where */
         /* @var $and \app\db\builder\WhereAnd */
@@ -70,7 +70,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->setClass('where');
         $parameter = new \app\db\builder\PreparedStatement();
         $this->statement->setPreparedStatement($parameter);
-        $this->statement->parser(['str=param1', ['or', 'str=param2']]);
+        $this->statement->arrangeStatement(['str=param1', ['or', 'str=param2']]);
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
         $and = $this->getWhereOperator($where, \app\db\builder\WhereAnd::class);
@@ -83,38 +83,38 @@ class StatementTest extends unit\db\builder\StatementHelper
     /**
      * @expectedException TypeError
      */
-    public function testParser6()
+    public function testArrangeStatement6()
     {
         $this->statement->setClass('whereAnd');
-        $this->statement->parser([]);
+        $this->statement->arrangeStatement([]);
     }
 
     /**
      * @expectedException TypeError
      */
-    public function testParser7()
+    public function testArrangeStatement7()
     {
         $this->statement->setClass('SqlString');
-        $this->statement->parser([]);
+        $this->statement->arrangeStatement([]);
     }
 
     /**
      * @expectedException TypeError
      */
-    public function testParser8()
+    public function testArrangeStatement8()
     {
         $this->statement->setClass('Statement');
-        $this->statement->parser([]);
+        $this->statement->arrangeStatement([]);
     }
 
-    public function testParser9()
+    public function testArrangeStatement9()
     {
         $parameter = new \app\db\builder\PreparedStatement();
         $parameter->setPreparedStatements([':param1' => 'response1']);
         $this->statement->setPreparedStatement($parameter);
 
         $this->statement->setClass('where');
-        $this->statement->parser('str=:param1');
+        $this->statement->arrangeStatement('str=:param1');
         $where = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Where::class, $where);
         $and = $this->getWhereOperator($where, \app\db\builder\WhereAnd::class);

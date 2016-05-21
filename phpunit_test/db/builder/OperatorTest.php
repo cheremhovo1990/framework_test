@@ -24,12 +24,12 @@ class OperatorTest extends \unit\db\builder\OperatorHelper
         $this->operator->setPreparedStatement(new \app\db\builder\PreparedStatement());
     }
 
-    public function testParser1()
+    public function testArrangeStatement1()
     {
         /* @var $or \app\db\builder\WhereOr */
         /* @var $and \app\db\builder\WhereAnd */
 
-        $this->operator->parser(['param=str1', ['or', 'param=str2', ['and', 'param=str3']]]);
+        $this->operator->arrangeStatement(['param=str1', ['or', 'param=str2', ['and', 'param=str3']]]);
         $this->assertSqlStringEquals('param=str1', $this->operator->getOperator()[0]);
         $or = $this->operator->getOperator()[1];
         $this->assertInstanceOf(\app\db\builder\WhereOr::class, $or);

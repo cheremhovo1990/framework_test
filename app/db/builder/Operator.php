@@ -34,12 +34,12 @@ abstract class Operator extends Query implements
         return $this->operator;
     }
 
-    public function parser($statement)
+    public function arrangeStatement($statement)
     {
-        $this->parserArray($statement);
+        $this->arrangeStatementArray($statement);
     }
 
-    protected function parserArray(array $statement)
+    protected function arrangeStatementArray(array $statement)
     {
         $parameter = $this->getPreparedStatement();
 
@@ -64,7 +64,7 @@ abstract class Operator extends Query implements
                 $obj->setPreparedStatement($parameter);
 
                 $this->add($obj);
-                $obj->parser($value);
+                $obj->arrangeStatement($value);
             }
         }
     }

@@ -27,7 +27,7 @@ class Statement extends Query
         $this->class = __NAMESPACE__ . '\\' . ucfirst($token);
     }
 
-    public function parser($statement)
+    public function arrangeStatement($statement)
     {
         $class = $this->getClass();
         $sqlObject = new $class();
@@ -35,7 +35,7 @@ class Statement extends Query
         if ($sqlObject instanceof Where ) {
             $sqlObject->setPreparedStatement($this->getPreparedStatement());
         }
-        $sqlObject->parser($statement);
+        $sqlObject->arrangeStatement($statement);
     }
 
     public function getClass()

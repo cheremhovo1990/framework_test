@@ -30,7 +30,7 @@ abstract class Token extends Query implements IStatement
         $this->tokens[] = $select;
     }
 
-    public function parser($statement)
+    public function arrangeStatement($statement)
     {
         if (is_string($statement)) {
             $string = new SqlString($statement);

@@ -32,7 +32,7 @@ class Where extends Query implements IStatement
         return $this->where;
     }
 
-    public function parser($statement)
+    public function arrangeStatement($statement)
     {
         if (is_string($statement)) {
             $statement = ['and', $statement];
@@ -51,6 +51,6 @@ class Where extends Query implements IStatement
 
 
         $this->add($obj);
-        $obj->parser($statement);
+        $obj->arrangeStatement($statement);
     }
 }

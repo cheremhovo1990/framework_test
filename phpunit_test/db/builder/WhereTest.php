@@ -12,7 +12,7 @@ class WhereTest extends unit\db\builder\WhereHelper
         $this->where->setPreparedStatement(new \app\db\builder\PreparedStatement());
     }
 
-    public function testParser1()
+    public function testArrangeStatement1()
     {
         /* @var $and \app\db\builder\WhereAnd*/
 
@@ -20,7 +20,7 @@ class WhereTest extends unit\db\builder\WhereHelper
         $this->assertSqlStringEquals('param', $and->getOperator()[0]);
     }
 
-    public function testParser2()
+    public function testArrangeStatement2()
     {
         /* @var $or \app\db\builder\WhereOr */
 
@@ -31,7 +31,7 @@ class WhereTest extends unit\db\builder\WhereHelper
         $this->assertSqlStringEquals('str=param2', $or->getOperator()[0]);
     }
 
-    public function testParser3()
+    public function testArrangeStatement3()
     {
         /* @var $and \app\db\builder\WhereAnd*/
 
@@ -45,12 +45,12 @@ class WhereTest extends unit\db\builder\WhereHelper
     /**
      * @expectedException TypeError
     */
-    public function testParser4()
+    public function testArrangeStatement4()
     {
-        $this->where->parser(['', 'str=param1']);
+        $this->where->arrangeStatement(['', 'str=param1']);
     }
 
-    public function testParser5()
+    public function testArrangeStatement5()
     {
         $and = $this->getFromWhere(['and', 'str1' => 'param1'], \app\db\builder\WhereAnd::class);
         $identify = \unit\db\builder\Helper::identify();

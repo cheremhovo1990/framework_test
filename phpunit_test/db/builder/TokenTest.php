@@ -23,15 +23,15 @@ class TokenTest extends \unit\db\builder\TokenHelper
         $this->token = new FakerToken();
     }
 
-    public function testParser1()
+    public function testArrangeStatement1()
     {
-        $this->token->parser('first');
+        $this->token->arrangeStatement('first');
         $this->assertSqlStringEquals('first', $this->token->getTokens()[0]);
     }
 
-    public function testParser2()
+    public function testArrangeStatement2()
     {
-        $this->token->parser(['first', 'as_second' => 'second', 'third as as_third']);
+        $this->token->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
         $tokens = $this->token->getTokens();
         $this->assertSqlStringEquals('first', $tokens[0]);
         $this->assertSqlStringEquals('second AS as_second', $tokens[1]);
