@@ -11,7 +11,10 @@ declare(strict_types=1);
 
 class FakerToken extends \app\db\builder\Token
 {
-
+    protected function getNameToken() : string
+    {
+        return 'SELECT';
+    }
 }
 
 class TokenTest extends \unit\db\builder\TokenHelper
@@ -28,15 +31,12 @@ class TokenTest extends \unit\db\builder\TokenHelper
     public function testArrangeStatement1()
     {
         $this->token->arrangeStatement('first');
-        $this->assertSqlStringEquals('`first`', $this->token->getTokens()[0]);
+        $this->assertEquals('SELECT `first`', $this->token->buildStatement());
     }
 
     public function testArrangeStatement2()
     {
         $this->token->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
-        $tokens = $this->token->getTokens();
-        $this->assertSqlStringEquals('`first`', $tokens[0]);
-        $this->assertSqlStringEquals('`second` AS `as_second`', $tokens[1]);
-        $this->assertSqlStringEquals('`third` AS `as_third`', $tokens[2]);
+        $this->assertEquals('SELECT `first`, `second` AS `as_second`, `third` AS `as_third`', $this->token->buildStatement());
     }
 }

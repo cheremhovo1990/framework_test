@@ -15,21 +15,21 @@ abstract class Token extends Query implements IStatement
 {
     use TShield;
 
-    protected $tokens = [];
+    protected $token = [];
 
     public function add($select)
     {
-        $this->setTokens($select);
+        $this->setToken($select);
     }
 
-    public function getTokens() : array
+    public function getToken() : array
     {
-        return $this->tokens;
+        return $this->token;
     }
 
-    public function setTokens(SqlString $select)
+    public function setToken(SqlString $select)
     {
-        $this->tokens[] = $select;
+        $this->token[] = $select;
     }
 
     public function arrangeStatement($statement)
@@ -60,4 +60,20 @@ abstract class Token extends Query implements IStatement
     {
         return $this->shield->run($string);
     }
+
+    public function buildStatement() : string
+    {
+        $result = $this->getNameToken() . ' ';
+        $count = count($this->token) - 1;
+        foreach ($this->token as $key => $elem) {
+            $result .= $elem->getString();
+            if ($key < $count) {
+                $result .= ', ';
+            }
+        }
+
+        return $result;
+    }
+
+    abstract protected function getNameToken();
 }

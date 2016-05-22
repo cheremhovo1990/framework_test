@@ -12,5 +12,8 @@ namespace app\db\builder;
 
 class Select extends Token
 {
-
+    protected function getNameToken() : string
+    {
+        return 'SELECT';
+    }
 }

@@ -13,4 +13,8 @@ namespace app\db\builder;
 
 class From extends Token
 {
+    protected function getNameToken() : string
+    {
+        return 'FROM';
+    }
 }

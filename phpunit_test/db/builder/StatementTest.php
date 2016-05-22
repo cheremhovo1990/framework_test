@@ -21,7 +21,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement('first');
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
-        $this->assertSqlStringEquals('`first`', $select->getTokens()[0]);
+        $this->assertSqlStringEquals('`first`', $select->getToken()[0]);
     }
 
     public function testArrangeStatement2()
@@ -32,7 +32,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
         $select = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\Select::class, $select);
-        $selects = $select->getTokens();
+        $selects = $select->getToken();
         $this->assertSqlStringEquals('`first`', $selects[0]);
         $this->assertSqlStringEquals('`second` AS `as_second`', $selects[1]);
         $this->assertSqlStringEquals('`third` AS `as_third`', $selects[2]);
@@ -46,7 +46,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement('first');
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $this->assertSqlStringEquals('`first`', $from->getTokens()[0]);
+        $this->assertSqlStringEquals('`first`', $from->getToken()[0]);
     }
 
     public function testArrangeStatement4()
@@ -57,7 +57,7 @@ class StatementTest extends unit\db\builder\StatementHelper
         $this->statement->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
         $from = $this->statement->getStatements()[0];
         $this->assertInstanceOf(\app\db\builder\From::class, $from);
-        $froms = $from->getTokens();
+        $froms = $from->getToken();
         $this->assertSqlStringEquals('`first`', $froms[0]);
         $this->assertSqlStringEquals('`second` AS `as_second`', $froms[1]);
         $this->assertSqlStringEquals('`third` AS `as_third`', $froms[2]);
