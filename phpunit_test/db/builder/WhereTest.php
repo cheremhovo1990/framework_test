@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class WhereTest extends unit\db\builder\WhereHelper
+class WhereTest extends PHPUnit_Framework_TestCase
 {
     protected $where;
 

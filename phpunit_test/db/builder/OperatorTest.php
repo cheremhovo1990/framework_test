@@ -17,7 +17,7 @@ class FakerOperator extends \app\db\builder\Operator
     }
 }
 
-class OperatorTest extends \unit\db\builder\OperatorHelper
+class OperatorTest extends PHPUnit_Framework_TestCase
 {
     public $operator;
 

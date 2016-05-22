@@ -59,4 +59,13 @@ class Statement extends Query
     {
         return $this->statements;
     }
+
+    public function buildStatement() : string
+    {
+        $result = '';
+        foreach ($this->statements as $statement) {
+            $result .= $statement->buildStatement();
+        }
+        return $result;
+    }
 }

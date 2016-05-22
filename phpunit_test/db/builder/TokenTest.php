@@ -17,7 +17,7 @@ class FakerToken extends \app\db\builder\Token
     }
 }
 
-class TokenTest extends \unit\db\builder\TokenHelper
+class TokenTest extends PHPUnit_Framework_TestCase
 {
     protected $token;
 
