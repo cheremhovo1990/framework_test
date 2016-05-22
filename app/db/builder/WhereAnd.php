@@ -13,4 +13,8 @@ namespace app\db\builder;
 
 class WhereAnd extends Operator
 {
+    protected function getNameOperator() : string
+    {
+        return 'AND';
+    }
 }

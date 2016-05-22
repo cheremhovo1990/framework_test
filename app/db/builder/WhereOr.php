@@ -11,4 +11,8 @@ namespace app\db\builder;
 
 class WhereOr extends Operator
 {
+    protected function getNameOperator() : string
+    {
+        return 'OR';
+    }
 }

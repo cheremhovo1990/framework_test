@@ -11,7 +11,10 @@ declare(strict_types=1);
 
 class FakerOperator extends \app\db\builder\Operator
 {
-
+    public function getNameOperator() : string
+    {
+        return 'AND';
+    }
 }
 
 class OperatorTest extends \unit\db\builder\OperatorHelper
@@ -26,16 +29,22 @@ class OperatorTest extends \unit\db\builder\OperatorHelper
 
     public function testArrangeStatement1()
     {
-        /* @var $or \app\db\builder\WhereOr */
-        /* @var $and \app\db\builder\WhereAnd */
+        $argument = [
+            'param=str1',
+            'param=str2',
+            [
+                'and',
+                'param=str3',
+                'param=str4',
+                [
+                    'or',
+                    'param=str5', 'param=str6'
+                ]
+            ]
+        ];
 
-        $this->operator->arrangeStatement(['param=str1', ['or', 'param=str2', ['and', 'param=str3']]]);
-        $this->assertSqlStringEquals('param=str1', $this->operator->getOperator()[0]);
-        $or = $this->operator->getOperator()[1];
-        $this->assertInstanceOf(\app\db\builder\WhereOr::class, $or);
-        $this->assertSqlStringEquals('param=str2', $or->getOperator()[0]);
-        $and = $or->getOperator()[1];
-        $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
-        $this->assertSqlStringEquals('param=str3', $and->getOperator()[0]);
+        $this->operator->arrangeStatement($argument);
+        $expected = '(param=str1 AND param=str2 AND (param=str3 AND param=str4 AND (param=str5 OR param=str6)))';
+        $this->assertEquals($expected, $this->operator->buildStatement());
     }
 }

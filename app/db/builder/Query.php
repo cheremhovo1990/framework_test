@@ -21,4 +21,9 @@ abstract class Query
     {
         throw \Exception();
     }
+
+    public function buildStatement() : string
+    {
+        throw \Exception();
+    }
 }

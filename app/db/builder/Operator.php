@@ -69,4 +69,30 @@ abstract class Operator extends Query implements
             }
         }
     }
+
+    public function buildStatement() : string
+    {
+        $result = '(';
+
+        foreach ($this->operator as $key => $elem) {
+            if ($key !== 0) {
+                $result .= ' ' . $this->getNameOperator() . ' ';
+            }
+            if ($elem instanceof WhereAnd) {
+                $result .= $elem->buildStatement();
+                continue;
+            }
+            if ($elem instanceof WhereOr) {
+                $result .= $elem->buildStatement();
+                continue;
+            }
+            $result .= $elem->getString();
+        }
+        $result .= ')';
+        return $result;
+    }
+
+    abstract protected function getNameOperator() : string;
+
+
 }
