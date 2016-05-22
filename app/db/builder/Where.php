@@ -54,4 +54,9 @@ class Where extends Query implements IStatement
         $this->add($obj);
         $obj->arrangeStatement($statement);
     }
+
+    public function buildStatement() : string
+    {
+        return 'WHERE ' . $this->where->buildStatement();
+    }
 }

@@ -14,32 +14,20 @@ class WhereTest extends unit\db\builder\WhereHelper
 
     public function testArrangeStatement1()
     {
-        /* @var $and \app\db\builder\WhereAnd*/
-
-        $and = $this->getFromWhere('param', \app\db\builder\WhereAnd::class);
-        $this->assertSqlStringEquals('param', $and->getOperator()[0]);
+        $this->where->arrangeStatement('param');
+        $this->assertEquals('WHERE (param)', $this->where->buildStatement());
     }
 
     public function testArrangeStatement2()
     {
-        /* @var $or \app\db\builder\WhereOr */
-
-        $or = $this->getFromWhere(['or', 'str=param1', ['or', 'str=param2']], \app\db\builder\WhereOr::class);
-        $this->assertSqlStringEquals('str=param1', $or->getOperator()[0]);
-        $or = $or->getOperator()[1];
-        $this->assertInstanceOf(\app\db\builder\WhereOr::class, $or);
-        $this->assertSqlStringEquals('str=param2', $or->getOperator()[0]);
+        $this->where->arrangeStatement(['or', 'str=param1', ['or', 'str=param2']]);
+        $this->assertEquals('WHERE (str=param1 OR (str=param2))', $this->where->buildStatement());
     }
 
     public function testArrangeStatement3()
     {
-        /* @var $and \app\db\builder\WhereAnd*/
-
-        $and = $this->getFromWhere(['and', 'str=param1', ['and', 'str=param2']], \app\db\builder\WhereAnd::class);
-        $this->assertSqlStringEquals('str=param1', $and->getOperator()[0]);
-        $and = $and->getOperator()[1];
-        $this->assertInstanceOf(\app\db\builder\WhereAnd::class, $and);
-        $this->assertSqlStringEquals('str=param2', $and->getOperator()[0]);
+        $this->where->arrangeStatement(['and', 'str=param1', ['and', 'str=param2']]);
+        $this->assertEquals('WHERE (str=param1 AND (str=param2))', $this->where->buildStatement());
     }
 
     /**
@@ -52,9 +40,9 @@ class WhereTest extends unit\db\builder\WhereHelper
 
     public function testArrangeStatement5()
     {
-        $and = $this->getFromWhere(['and', 'str1' => 'param1'], \app\db\builder\WhereAnd::class);
+        $this->where->arrangeStatement(['and', 'str1' => 'param1']);
         $identify = \unit\db\builder\Helper::identify();
-        $this->assertSqlStringEquals('str1=' . $identify, $and->getOperator()[0]);
-        $this->assertEquals([$identify => 'param1'], $and->getPreparedStatement()->getPreparedParameters());
+        $this->assertEquals('WHERE (str1=' . $identify . ')', $this->where->buildStatement());
+        $this->assertEquals([$identify => 'param1'], $this->where->getPreparedStatement()->getPreparedParameters());
     }
 }

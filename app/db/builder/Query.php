@@ -14,16 +14,16 @@ abstract class Query
 {
     public function add($statement)
     {
-        throw \Exception();
+        throw new \Exception();
     }
     
     public function arrangeStatement($statement)
     {
-        throw \Exception();
+        throw new \Exception();
     }
 
     public function buildStatement() : string
     {
-        throw \Exception();
+        throw new \Exception();
     }
 }
