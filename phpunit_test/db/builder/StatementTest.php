@@ -31,14 +31,14 @@ class StatementTest extends PHPUnit_Framework_TestCase
     {
         $this->statement->setClass('from');
         $this->statement->arrangeStatement('first');
-        $this->assertEquals('FROM `first`', $this->statement->buildStatement());
+        $this->assertEquals(' FROM `first`', $this->statement->buildStatement());
     }
 
     public function testArrangeStatement4()
     {
         $this->statement->setClass('from');
         $this->statement->arrangeStatement(['first', 'as_second' => 'second', 'third as as_third']);
-        $this->assertEquals('FROM `first`, `second` AS `as_second`, `third` AS `as_third`', $this->statement->buildStatement());
+        $this->assertEquals(' FROM `first`, `second` AS `as_second`, `third` AS `as_third`', $this->statement->buildStatement());
     }
 
     public function testArrangeStatement5()
@@ -47,7 +47,7 @@ class StatementTest extends PHPUnit_Framework_TestCase
         $parameter = new \app\db\builder\PreparedStatement();
         $this->statement->setPreparedStatement($parameter);
         $this->statement->arrangeStatement(['str=param1', ['or', 'str=param2']]);
-        $this->assertEquals('WHERE (str=param1 AND (str=param2))', $this->statement->buildStatement());
+        $this->assertEquals(' WHERE (str=param1 AND (str=param2))', $this->statement->buildStatement());
     }
 
     /**
@@ -85,7 +85,7 @@ class StatementTest extends PHPUnit_Framework_TestCase
         $this->statement->setClass('where');
         $this->statement->arrangeStatement('str=:param1');
         $identify = \unit\db\builder\Helper::identify();
-        $this->assertEquals('WHERE (str='. $identify . ')', $this->statement->buildStatement());
+        $this->assertEquals(' WHERE (str='. $identify . ')', $this->statement->buildStatement());
         $this->assertEquals([$identify => 'response1'], $this->statement->getPreparedStatement()->getPreparedParameters());
     }
 }

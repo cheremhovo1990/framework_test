@@ -14,7 +14,7 @@ use app\db\builder\Statement;
 
 abstract class BaseBuilder
 {
-    protected $statement;
+    private $statement;
 
     public function getStatement() : Statement
     {
@@ -25,10 +25,19 @@ abstract class BaseBuilder
     {
         $this->statement = $statement;
     }
-    
+
+    public function issetStatement()
+    {
+        return isset($this->statement);
+    }
+
     protected function arrangeStatement(string $token, $statement,array $parameters = null)
     {
-        $sql = new Statement($token);
+        if (!$this->issetStatement()) {
+            $this->setStatement(new Statement());
+        }
+        $sql = $this->getStatement();
+        $sql->setClass($token);
         $parameter =  new builder\PreparedStatement();
         $shield = new builder\Shield();
         $sql->setPreparedStatement($parameter);
@@ -36,7 +45,11 @@ abstract class BaseBuilder
             $parameter->setPreparedStatements($parameters);
         }
         $sql->setShield($shield);
-        $this->setStatement($sql);
         $sql->arrangeStatement($statement);
+    }
+
+    protected function buildStatement() : string
+    {
+        return $this->getStatement()->buildStatement();
     }
 }

@@ -57,6 +57,6 @@ class Where extends Query implements IStatement
 
     public function buildStatement() : string
     {
-        return 'WHERE ' . $this->where->buildStatement();
+        return ' WHERE ' . $this->where->buildStatement();
     }
 }

@@ -15,6 +15,6 @@ class From extends Token
 {
     protected function getNameToken() : string
     {
-        return 'FROM';
+        return ' FROM';
     }
 }

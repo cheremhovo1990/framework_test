@@ -18,11 +18,6 @@ class Statement extends Query
     private $statements;
     private $class;
 
-    public function __construct(string $token)
-    {
-        $this->setClass($token);
-    }
-
     public function setClass($token)
     {
         $this->class = __NAMESPACE__ . '\\' . ucfirst($token);
