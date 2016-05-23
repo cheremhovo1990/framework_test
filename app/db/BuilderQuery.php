@@ -27,4 +27,9 @@ class BuilderQuery extends BaseBuilder
     {
         return $this->buildStatement();
     }
+
+    public function getParam() : array
+    {
+        return $this->getPreparedParameters();
+    }
 }

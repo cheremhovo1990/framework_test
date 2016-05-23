@@ -35,4 +35,15 @@ class ShieldTest extends PHPUnit_Framework_TestCase
         $actual = $this->shield->run('  db  .   test AS as_test   ');
         $this->assertEquals('`db`.`test` AS `as_test`', $actual);
     }
+    public function testRun5()
+    {
+        $actual = $this->shield->run(' * ');
+        $this->assertEquals('*', $actual);
+    }
+
+    public function testRun6()
+    {
+        $actual = $this->shield->run('first, second');
+        $this->assertEquals('`first`, `second`', $actual);
+    }
 }

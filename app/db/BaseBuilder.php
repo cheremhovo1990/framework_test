@@ -52,4 +52,9 @@ abstract class BaseBuilder
     {
         return $this->getStatement()->buildStatement();
     }
+
+    protected function getPreparedParameters() : array
+    {
+        return $this->getStatement()->getPreparedStatement()->getPreparedParameters();
+    }
 }
