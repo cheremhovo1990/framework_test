@@ -6,7 +6,7 @@
  * Time: 10:04
  */
 
-namespace fra;
+namespace fra\db;
 
 
 class Db
@@ -15,7 +15,7 @@ class Db
 
     public function __construct()
     {
-        $this->pdo = new \PDO('sqlite:' . __DIR__ . '/../data/db.db');
+        $this->pdo = new \PDO('sqlite:' . __DIR__ . '/../../data/db.db');
     }
 
     public function execute($sql, $param)

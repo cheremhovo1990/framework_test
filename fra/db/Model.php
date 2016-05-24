@@ -1,6 +1,6 @@
 <?php
 
-namespace fra;
+namespace fra\db;
 
 abstract class Model
 {
@@ -12,7 +12,7 @@ abstract class Model
     public static function findAll()
     {
         $db = new Db();
-        $statement = new db\BuilderQuery();
+        $statement = new BuilderQuery();
         $sql = $statement->select('*')->from(static::TABLE)->getSql();
         return $db->query(
             $sql,
@@ -24,7 +24,7 @@ abstract class Model
     public static function findById($id)
     {
         $db = new Db();
-        $statement = new db\BuilderQuery();
+        $statement = new BuilderQuery();
         $sql = $statement->select('*')->from(static::TABLE)->where('id=:id', [':id' => $id])->getSql();
         return $db->query($sql,
             $statement->getParam(),
