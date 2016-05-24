@@ -8,4 +8,4 @@ require(__DIR__ . '/models/Test.php');
 
 $test = new Test();
 
-var_dump($test->findById(8));
+var_dump($test->findById(9));

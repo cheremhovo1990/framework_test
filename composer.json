@@ -1,12 +1,12 @@
 {
     "autoload" : {
         "psr-4" : {
-            "app\\"  : "app/",
-            "unit\\" : "phpunit_test/"
+            "fra\\"  : "fra/",
+            "unit\\" : "test/",
+            "app\\" : "app/"
         }
     },
     "require": {
-        "codeception/codeception": "^2.1",
         "phpunit/phpunit": "^5.3"
     }
 }
