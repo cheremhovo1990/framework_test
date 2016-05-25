@@ -9,6 +9,20 @@ abstract class Model
 
     public $id;
 
+    // protected $statement;
+
+    public function getStatement() : BuilderQuery
+    {
+        return $this->statement;
+    }
+
+    public function setStatement(BuilderQuery $statement)
+    {
+        $this->statement = $statement;
+    }
+
+
+
     public static function findAll()
     {
         $db = new Db();
@@ -30,6 +44,13 @@ abstract class Model
             $statement->getParam(),
             static::class
         )[0];
+    }
+
+    public static function find()
+    {
+        $model = new static();
+        $model->setStatement(new BuilderQuery());
+        return $model;
     }
 
     public function isNew()
@@ -56,6 +77,7 @@ abstract class Model
         $statement->insert($insert);
         $sql = $statement->getSql();
         $db->execute($sql, $statement->getParam());
+        $this->id = $db->lastInsertId();
     }
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dataset>
+    <table name="Test">
+        <column>id</column>
+        <column>name</column>
+        <column>email</column>
+        <row>
+            <value>1</value>
+            <value>Tom</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>John</value>
+            <value>test@email.com</value>
+        </row>
+    </table>
+</dataset>

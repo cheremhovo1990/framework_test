@@ -12,6 +12,9 @@ class Shield
         if ($string == '*') {
             return $string;
         }
+        if (strpos($string, '(') !== false) {
+            return $string;
+        }
         $string = '`' . $string;
         $string = str_replace(' as ', ' AS ', $string);
         $result = preg_replace('~(\s*(\.| AS | |, )\s*)~', "`\$2`", $string);

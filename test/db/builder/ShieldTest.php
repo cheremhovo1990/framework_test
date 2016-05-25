@@ -46,4 +46,9 @@ class ShieldTest extends PHPUnit_Framework_TestCase
         $actual = $this->shield->run('first, second');
         $this->assertEquals('`first`, `second`', $actual);
     }
+    public function testRun7()
+    {
+        $actual = $this->shield->run('count(*)');
+        $this->assertEquals('count(*)', $actual);
+    }
 }
