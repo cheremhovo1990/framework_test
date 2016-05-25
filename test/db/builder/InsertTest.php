@@ -17,6 +17,6 @@ class InsertTest extends PHPUnit_Framework_TestCase
         $this->insert->arrangeStatement(['table1', 'name1' => 'Title1', 'name2' => 'Title2']);
         $identify1 = \unit\db\builder\Helper::identify();
         $identify2= \unit\db\builder\Helper::identify();
-        $this->assertEquals('INSERT INTO table1 SET name1=' . $identify1 . ', name2=' . $identify2, $this->insert->buildStatement());
+        $this->assertEquals('INSERT INTO table1(name1, name2)VALUES(' . $identify1 . ', ' . $identify2 . ')', $this->insert->buildStatement());
     }
 }

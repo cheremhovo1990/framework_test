@@ -28,7 +28,7 @@ class Statement extends Query
         $class = $this->getClass();
         $sqlObject = new $class();
         $this->add($sqlObject);
-        if ($sqlObject instanceof Where ) {
+        if ($sqlObject instanceof Where || $sqlObject instanceof Insert ) {
             $sqlObject->setPreparedStatement($this->getPreparedStatement());
         }
         $sqlObject->setShield($this->getShield());

@@ -23,6 +23,12 @@ class BuilderQuery extends BaseBuilder
         return $this;
     }
 
+    public function insert($insert)
+    {
+        $this->arrangeStatement('insert', $insert);
+        return $this;
+    }
+
     public function getSql() : string
     {
         return $this->buildStatement();

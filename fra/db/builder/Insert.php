@@ -4,13 +4,14 @@ declare(strict_types = 1);
 
 namespace fra\db\builder;
 
-class Insert extends Query
+class Insert extends Query implements IStatement
 {
-    use TPreparedStatement;
+    use TPreparedStatement,
+        TShield;
 
     public $table;
 
-    public $insert;
+    public $insert = [];
 
     public function getTable() : string
     {
@@ -28,8 +29,10 @@ class Insert extends Query
         $this->setTable($table);
         foreach ($statement as $key => $elem) {
             $parameter = $this->getPreparedStatement();
-            $str = $parameter->bindValue($key, $elem);
-            $this->add($str);
+            $identify = $parameter->identify();
+            $insert = [$key => $identify];
+            $parameter->setPreparedParameters([$identify => $elem]);
+            $this->add($insert);
         }
     }
 
@@ -43,20 +46,21 @@ class Insert extends Query
         return $this->insert;
     }
 
-    public function setInsert(string $insert)
+    public function setInsert(array $insert)
     {
-        $this->insert[] = $insert;
+        $this->insert = $this->insert + $insert;
     }
 
     public function buildStatement() : string
     {
-        $result = 'INSERT INTO ' . $this->getTable() . ' SET ';
-        foreach ($this->getInsert() as $key => $item) {
-            if ($key !== 0) {
-                $result .= ', ';
-            }
-            $result .= $item;
-        }
+        $result = 'INSERT INTO ' . $this->getTable();
+        $column = '(';
+        $value = '(';
+        $column .= implode(', ',array_keys($this->getInsert()));
+        $value .= implode(', ',array_values($this->getInsert()));
+        $column .= ')';
+        $value .= ')';
+        $result .= $column . 'VALUES' . $value;
         return $result;
     }
 }

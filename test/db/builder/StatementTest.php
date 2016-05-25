@@ -86,6 +86,16 @@ class StatementTest extends PHPUnit_Framework_TestCase
         $this->statement->arrangeStatement('str=:param1');
         $identify = \unit\db\builder\Helper::identify();
         $this->assertEquals(' WHERE (str='. $identify . ')', $this->statement->buildStatement());
-        $this->assertEquals([$identify => 'response1'], $this->statement->getPreparedStatement()->getPreparedParameters());
+    }
+
+    public function testArrangeStatement10()
+    {
+        $parameter = new \fra\db\builder\PreparedStatement();
+        $this->statement->setPreparedStatement($parameter);
+        $this->statement->setClass('insert');
+        $this->statement->arrangeStatement(['table', 'name1' => 'param1', 'name2' => 'param2']);
+        $identify1 = \unit\db\builder\Helper::identify();
+        $identify2 = \unit\db\builder\Helper::identify();
+        $this->assertEquals('INSERT INTO table(name1, name2)VALUES(' . $identify1 . ', ' . $identify2 . ')', $this->statement->buildStatement());
     }
 }

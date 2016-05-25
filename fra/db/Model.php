@@ -43,24 +43,19 @@ abstract class Model
             return;
         }
 
-        $columns = [];
-        $values = [];
+        $db = new Db();
+        $statement = new BuilderQuery();
+
+        $insert = [static::TABLE];
         foreach ($this as $k => $v) {
             if ('id' == $k) {
                 continue;
             }
-            $columns[] = $k;
-            $values[':'.$k] = $v;
+            $insert[$k] = $v;
         }
-
-        $sql = '
-INSERT INTO ' . static::TABLE . '
-(' . implode(',', $columns) . ')
-VALUES
-(' . implode(',', array_keys($values)) . ')
-        ';
-        $db = Db::instance();
-        $db->execute($sql, $values);
+        $statement->insert($insert);
+        $sql = $statement->getSql();
+        $db->execute($sql, $statement->getParam());
     }
 
 }

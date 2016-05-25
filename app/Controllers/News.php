@@ -26,9 +26,9 @@ class News
 
     protected function actionIndex()
     {
-/*        $this->view->title = 'Мой крутой сайт!';
-        $this->view->news = \app\Models\News::findAll();
-        $this->view->display(__DIR__ . '/../templates/index.php');*/
+        $testModel = new \app\models\Test();
+        $testModel->name = '2016title1';
+        $testModel->insert();
     }
 
     protected function actionOne()
