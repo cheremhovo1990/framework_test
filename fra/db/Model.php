@@ -9,7 +9,29 @@ abstract class Model
 
     public $id;
 
-    // protected $statement;
+    protected $statement;
+    protected $db;
+
+    public function getDb() : Db
+    {
+        return $this->db;
+    }
+
+    public function setDb(Db $db)
+    {
+        $this->db = $db;
+    }
+
+
+
+    public  function extractPublicProperty($object) : array
+    {
+        $reflectionObject = new \ReflectionObject($object);
+        $properties = array_map(function ($a){
+            return $a->getName();
+        },$reflectionObject->getProperties(\ReflectionProperty::IS_PUBLIC));
+        return $properties;
+    }
 
     public function getStatement() : BuilderQuery
     {
@@ -53,6 +75,33 @@ abstract class Model
         return $model;
     }
 
+    public function select($select)
+    {
+        $statement = $this->getStatement();
+        $statement->select($select);
+        return $this;
+    }
+
+    public function from($from)
+    {
+        $statement = $this->getStatement();
+        $statement->from($from);
+        return $this;
+    }
+
+    public function where($where, $param = null)
+    {
+        $statement = $this->getStatement();
+        $statement->where($where, $param);
+        return $this;
+    }
+
+    public function getSql() : string
+    {
+        $statement = $this->getStatement();
+        return $statement->getSql();
+    }
+
     public function isNew()
     {
         return empty($this->id);
@@ -68,16 +117,16 @@ abstract class Model
         $statement = new BuilderQuery();
 
         $insert = [static::TABLE];
-        foreach ($this as $k => $v) {
-            if ('id' == $k) {
+        $property = $this->extractPublicProperty($this);
+        foreach ($property as $value) {
+            if ('id' == $value) {
                 continue;
             }
-            $insert[$k] = $v;
+            $insert[$value] = $this->$value;
         }
         $statement->insert($insert);
         $sql = $statement->getSql();
         $db->execute($sql, $statement->getParam());
         $this->id = $db->lastInsertId();
     }
-
 }

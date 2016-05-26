@@ -48,7 +48,7 @@ class ModelTest extends \PHPUnit_Extensions_Database_TestCase
         $this->assertEquals('test@email.com', $model->email);
     }
 
-    public function testInsetr()
+    public function testInsert()
     {
         \unit\db\builder\Helper::identify();
         \unit\db\builder\Helper::identify();
@@ -65,5 +65,30 @@ class ModelTest extends \PHPUnit_Extensions_Database_TestCase
         $this->assertEquals($model->id, $model1->id);
         $this->assertEquals('Robbert', $model1->name);
         $this->assertEquals('my@emial.com', $model1->email);
+    }
+
+    public function testFind()
+    {
+        $model = FakeModel::find();
+        $this->assertInstanceOf(fra\db\Model::class, $model);
+    }
+
+    public function testSelect()
+    {
+        $model = FakeModel::find()->select(['id', 'name']);
+        $this->assertEquals('SELECT `id`, `name`', $model->getSql());
+    }
+
+    public function testFrom()
+    {
+        $model = FakeModel::find()->from(['id', 'name']);
+        $this->assertEquals(' FROM `id`, `name`', $model->getSql());
+    }
+
+    public function testWhere()
+    {
+        $model = FakeModel::find()->where(['and', 'id' => 'name']);
+        $identify = \unit\db\builder\Helper::identify();
+        $this->assertEquals(' WHERE (id=' . $identify . ')', $model->getSql());
     }
 }
