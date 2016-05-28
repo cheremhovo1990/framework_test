@@ -129,4 +129,26 @@ abstract class Model
         $db->execute($sql, $statement->getParam());
         $this->id = $db->lastInsertId();
     }
+
+    public function update()
+    {
+        if ($this->isNew()) {
+            return;
+        }
+
+        $db = new Db();
+        $statement = new BuilderQuery();
+        $update = [static::TABLE];
+        $property = $this->extractPublicProperty($this);
+        foreach ($property as $value) {
+            if ('id' == $value) {
+                continue;
+            }
+            $update[$value] = $this->$value;
+        }
+        $statement->update($update);
+        $statement->where(['and', 'id' => $this->id]);
+        $sql = $statement->getSql();
+        $db->execute($sql, $statement->getParam());
+    }
 }

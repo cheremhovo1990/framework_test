@@ -26,9 +26,10 @@ class News
 
     protected function actionIndex()
     {
-        $testModel = new \app\models\Test();
-        $testModel->name = '2016title1';
-        $testModel->insert();
+        $model = new \app\models\Test();
+        $model->name = 'Robbert';
+        $model->email = 'my@emial.com';
+        $model->insert();
     }
 
     protected function actionOne()

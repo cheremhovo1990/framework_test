@@ -16,4 +16,9 @@ trait TPreparedStatement
     {
         return $this->parameter;
     }
+
+    public function issetPreparedStatement()
+    {
+        return (!empty($this->parameter));
+    }
 }

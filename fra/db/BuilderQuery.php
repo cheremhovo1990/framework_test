@@ -29,6 +29,12 @@ class BuilderQuery extends BaseBuilder
         return $this;
     }
 
+    public function update($update)
+    {
+        $this->arrangeStatement('update', $update);
+        return $this;
+    }
+
     public function getSql() : string
     {
         return $this->buildStatement();

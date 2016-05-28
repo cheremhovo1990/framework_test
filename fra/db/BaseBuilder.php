@@ -38,11 +38,13 @@ abstract class BaseBuilder
         }
         $sql = $this->getStatement();
         $sql->setClass($token);
-        $parameter =  new builder\PreparedStatement();
+        if (!$sql->issetPreparedStatement()) {
+            $parameter =  new builder\PreparedStatement();
+            $sql->setPreparedStatement($parameter);
+        }
         $shield = new builder\Shield();
-        $sql->setPreparedStatement($parameter);
         if (!is_null($parameters)) {
-            $parameter->setPreparedStatements($parameters);
+            $sql->getPreparedStatement()->setPreparedStatements($parameters);
         }
         $sql->setShield($shield);
         $sql->arrangeStatement($statement);

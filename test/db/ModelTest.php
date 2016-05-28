@@ -91,4 +91,22 @@ class ModelTest extends \PHPUnit_Extensions_Database_TestCase
         $identify = \unit\db\builder\Helper::identify();
         $this->assertEquals(' WHERE (id=' . $identify . ')', $model->getSql());
     }
+
+    public function testUpdate()
+    {
+        \unit\db\builder\Helper::identify();
+        \unit\db\builder\Helper::identify();
+        \unit\db\builder\Helper::identify();
+        \unit\db\builder\Helper::identify();
+
+
+        $model1 = FakeModel::findById(2);
+        $model1->name = 'Robbert';
+        $model1->update();
+
+        \unit\db\builder\Helper::identify();
+
+        $model2 = FakeModel::findById(2);
+        $this->assertEquals('Robbert', $model2->name);
+    }
 }
