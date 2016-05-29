@@ -2,53 +2,23 @@
 
 namespace app\controllers;
 
-use fra\View;
+use fra\web\Controller;
 
-class News
+class News  extends Controller
 {
-    protected $view;
-
-    public function __construct()
-    {
-        $this->view = new View();
-    }
-
-    public function action($action)
-    {
-        $methodName = 'action' . $action;
-        $this->beforeAction();
-        return $this->$methodName();
-    }
-
-    protected function beforeAction()
-    {
-    }
-
     protected function actionIndex()
     {
-        $model = new \app\models\Test();
+        echo 'index';
+        $this->view->my = 'example';
+        $this->view->display(__DIR__ . '/../view/index.php');
+/*        $model = new \app\models\Test();
         $model->name = 'Robbert';
         $model->email = 'my@emial.com';
-        $model->insert();
+        $model->insert();*/
     }
 
     protected function actionOne()
     {
-/*        $id = (int)$_GET['id'];
-        $this->view->article = \app\Models\News::findById($id);
-        $this->view->display(__DIR__ . '/../templates/one.php');*/
+        echo 'One';
     }
-
-    protected function actionCreate()
-    {
-/*        try {
-            $article = new \app\Models\News();
-            $article->fill([]);
-            $article->save();
-        } catch (MultiException $e) {
-            $this->view->errors = $e;
-        }
-        $this->view->display(__DIR__ . '/../templates/create.php');*/
-    }
-
 }

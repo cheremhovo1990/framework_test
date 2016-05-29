@@ -1,6 +1,6 @@
 <?php
 
-namespace fra;
+namespace fra\web;
 
 class View
     implements \Countable
