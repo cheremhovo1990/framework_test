@@ -5,20 +5,20 @@ namespace fra\db\builder;
 
 trait TPreparedStatement
 {
-    private $parameter;
+    private $preparedStatement;
 
-    public function setPreparedStatement(PreparedStatement $parameter)
+    public function setPreparedStatement(PreparedStatement $preparedStatement)
     {
-        $this->parameter = $parameter;
+        $this->preparedStatement = $preparedStatement;
     }
 
     public function getPreparedStatement() : PreparedStatement
     {
-        return $this->parameter;
+        return $this->preparedStatement;
     }
 
     public function issetPreparedStatement()
     {
-        return (!empty($this->parameter));
+        return (!empty($this->preparedStatement));
     }
 }
